@@ -1,0 +1,19 @@
+{% extends 'main/base.html'%} {% block content %}
+<hr />
+<form method="post" action="upload" enctype="multipart/form-data" style="margin-top:2rem;margin-bottom: 2rem;">
+  {% csrf_token %} {{form}}
+  <button type="submit" name="upload">Upload</button>
+</form>
+
+<hr />
+<h4>Uploaded</h4> <br /> {{uploaded}} <br />
+
+<hr />
+<h4>Results</h4> <br />{{data}} 
+
+<br /><br />
+<h4>Suitable Control Apps</h4>{{suitable_controlApps}}
+
+<br /><br />
+<h4>Non-suitable Control Apps</h4>{{non_suitable_controlApps}}
+{% endblock %}
