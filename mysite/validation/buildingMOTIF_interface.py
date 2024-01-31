@@ -43,11 +43,11 @@ class ValidationInterface:
             #print(model.graph.serialize())
 
             # load libraries included with the python package
-            constraint = Library.load(ontology_graph="constraints.ttl")
+            constraint = Library.load(ontology_graph="mysite/validation/constraints.ttl")
             #print(constraint)
 
             # load libraries excluded from the python package (available from the repository)
-            brick = Library.load(ontology_graph="Brick-subset.ttl")
+            brick = Library.load(ontology_graph="mysite/validation/Brick-subset.ttl")
 
             # pass a list of shape collections to .validate()
             validation_result = model.validate([brick.get_shape_collection()])
@@ -110,10 +110,10 @@ class ValidationInterface:
             #print(model.graph.serialize())
 
             # load libraries included with the python package
-            constraint = Library.load(ontology_graph="validation/constraints.ttl")
+            constraint = Library.load(ontology_graph="mysite/validation/constraints.ttl")
 
             # load libraries excluded from the python package (available from the repository)
-            brick = Library.load(ontology_graph="validation/Brick-subset.ttl")
+            brick = Library.load(ontology_graph="mysite/validation/Brick-subset.ttl")
 
             # pass a list of shape collections to .validate()
             validation_result = model.validate([brick.get_shape_collection()])
@@ -169,11 +169,11 @@ def results(form_content):
     graph_path = 'graph.ttl'
     
     manifest_paths = {
-        'shed os_zone_temp_adjs_rat':'validation/manifests_controls/manifest_shed_os_zone_temp_adjs_rat.ttl',
-        'shed os_zone_temp_adjs_dem_rat':'validation/manifests_controls/manifest_shed_os_zone_temp_adjs_dem_rat.ttl',                  
-        # 'shift os_zone_precool_sim':'validation/manifests_controls/manifest_shift_os_zone_precool_sim.ttl',                  
-        # 'shift os_zone_precool_com':'validation/manifests_controls/manifest_shift_os_zone_precool_com.ttl',                  
-        # 'shift/shed os_zone_precool_sim_temp_adjs_rat':'validation/manifests_controls/manifest_shift_shed_os_zone_precool_sim_temp_adjs_rat.ttl'                  
+        'shed os_zone_temp_adjs_rat':'mysite/validation//manifests_controls/manifest_shed_os_zone_temp_adjs_rat.ttl',
+        'shed os_zone_temp_adjs_dem_rat':'mysite/validation//manifests_controls/manifest_shed_os_zone_temp_adjs_dem_rat.ttl',                  
+        'shift os_zone_precool_sim':'mysite/validation//manifests_controls/manifest_shift_os_zone_precool_sim.ttl',                  
+        'shift os_zone_precool_com':'mysite/validation//manifests_controls/manifest_shift_os_zone_precool_com.ttl',                  
+        'shift/shed os_zone_precool_sim_temp_adjs_rat':'mysite/validation//manifests_controls/manifest_shift_shed_os_zone_precool_sim_temp_adjs_rat.ttl'                  
     }
     
     return ValidationInterface(graph_path, manifest_paths).get_results()
