@@ -135,6 +135,34 @@ Daily average power loads for the baseline and the flexible (shift and shed) con
 
 ![image](examples/boptest/testcase_singlezone_commercial_hydronic/results_zone_temp_shift_shed_price/B3_average_demand.png)
 
+## Running application
+
+1. Install the library and dependencies using pipenv
+
+   ```
+   pipenv install --dev
+   ```
+
+   Activate the virtual environment
+
+2. Install django
+
+   ```
+   pip install django
+   ```
+
+3. Install tabulate
+
+   ```
+   pip install tabulate
+   ```
+
+4. Run application
+
+   ```
+   python mysite/manage.py runserver 
+   ```
+
 ## Copyright Notice
 
 Demand Flexibility Controls Library using Semantics (DFLEXLIBS) 
