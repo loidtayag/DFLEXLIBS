@@ -1,19 +1,41 @@
 {% extends 'main/base.html'%} {% block content %}
-<hr />
-<form method="post" action="upload" enctype="multipart/form-data" style="margin-top:2rem;margin-bottom: 2rem;">
-  {% csrf_token %} {{form}}
-  <button type="submit" name="upload">Upload</button>
+<form method="post" action="upload" enctype="multipart/form-data">
+  {% csrf_token %}
+  <p>Upload your semantic model (brick)</p>
+  <div id="upload">
+    <div id="file">
+      <label for="upload_file" id="upload_file_label">Attach semantic model</label>
+      <input class="hidden" id="upload_file" type="file" name="file" accept=".ttl" required>
+    </div>
+    <button id="upload_submit" type="submit">UPLOAD</button>
+  </div>
 </form>
 
-<hr />
-<h4>Uploaded</h4> <br /> {{uploaded}} <br />
+{% if uploaded %}
+<br />
+<br />
+<div id="results">
+  <div id="results_header">
+    <p>Model Validation</p>
+    <span class="material-symbols-outlined" onclick="cancelResults()">
+      close
+    </span>
+  </div>
 
-<hr />
-<h4>Results</h4> <br />{{data}} 
-
-<br /><br />
-<h4>Suitable Control Apps</h4>{{suitable_controlApps}}
-
-<br /><br />
-<h4>Non-suitable Control Apps</h4>{{non_suitable_controlApps}}
+  <hr/>
+  <div id="results_choice">
+    <p>
+    Your model has been uploaded and validated
+    </p>
+    <div id="choices">
+      <button onclick="cancelResults()">
+        CANCEL
+      </button>
+      <button class="grey_background" onclick="seeResults()">
+        SEE RESULTS
+      </button>
+    </div>
+  </div>
+</div>
+{% endif %}
 {% endblock %}

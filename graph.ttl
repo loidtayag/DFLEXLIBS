@@ -1,0 +1,66 @@
+@prefix bldg: <urn:bldg/> .
+@prefix brick: <https://brickschema.org/schema/Brick#> .
+@prefix ref: <https://brickschema.org/schema/Brick/ref#> .
+
+bldg:building a brick:Building ;
+    brick:hasPart bldg:space .
+
+bldg:boiler a brick:Natural_Gas_Boiler ;
+    brick:hasPoint bldg:fcu_reaPHea_y .
+
+bldg:chiller a brick:Chiller ;
+    brick:hasPoint bldg:fcu_reaPCoo_y .
+
+bldg:con_oveTSetCoo_u a brick:Zone_Air_Cooling_Temperature_Setpoint ;
+    ref:hasExternalReference [ ref:hasTimeseriesId "con_oveTSetCoo_u" ] .
+
+bldg:con_oveTSetHea_u a brick:Zone_Air_Heating_Temperature_Setpoint ;
+    ref:hasExternalReference [ ref:hasTimeseriesId "con_oveTSetHea_u" ] .
+
+bldg:cooling_coil a brick:Cooling_Coil ;
+    brick:isFedBy bldg:chiller .
+
+bldg:fan a brick:Fan ;
+    brick:hasPoint bldg:fcu_reaPFan_y .
+
+bldg:fcu a brick:Fan_Coil_Unit ;
+    brick:feeds bldg:hvacZone ;
+    brick:hasPart bldg:cooling_coil,
+        bldg:fan,
+        bldg:heating_coil .
+
+bldg:fcu_reaPCoo_y a brick:Power_Sensor ;
+    ref:hasExternalReference [ ref:hasTimeseriesId "fcu_reaPCoo_y" ] .
+
+bldg:fcu_reaPFan_y a brick:Power_Sensor .
+
+bldg:fcu_reaPHea_y a brick:Power_Sensor ;
+    ref:hasExternalReference [ ref:hasTimeseriesId "fcu_reaPHea_y" ] .
+
+bldg:heating_coil a brick:Heating_Coil ;
+    brick:isFedBy bldg:boiler .
+
+bldg:hvacZone a brick:Zone ;
+    brick:hasPart bldg:space ;
+    brick:hasPoint bldg:con_oveTSetCoo_u,
+        bldg:con_oveTSetHea_u,
+        bldg:lowerSetp,
+        bldg:occ,
+        bldg:upperSetp,
+        bldg:zon_reaTRooAir_y ;
+    brick:isFedBy bldg:fcu .
+
+bldg:lowerSetp a brick:Min_Air_Temperature_Setpoint ;
+    ref:hasExternalReference [ ref:hasTimeseriesId "LowerSetp[1]" ] .
+
+bldg:occ a brick:Occupancy_Sensor ;
+    ref:hasExternalReference [ ref:hasTimeseriesId "Occupancy[1]" ] .
+
+bldg:upperSetp a brick:Max_Air_Temperature_Setpoint ;
+    ref:hasExternalReference [ ref:hasTimeseriesId "UpperSetp[1]" ] .
+
+bldg:zon_reaTRooAir_y a brick:Zone_Air_Temperature_Sensor ;
+    ref:hasExternalReference [ ref:hasTimeseriesId "zon_reaTRooAir_y" ] .
+
+bldg:space a brick:Space .
+
