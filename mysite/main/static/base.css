@@ -7,6 +7,49 @@ a {
     text-decoration: none !important;
 }
 
+.roww {
+    display: flex;
+    flex-direction: row;
+}
+
+.search {
+    border: 1px solid black;
+    padding: .5rem;
+    display: flex;
+    align-items: center;
+    width: 10rem;
+    justify-content: space-between;
+}
+
+.search input {
+    border: none;
+    width: 90%;
+}
+
+.grey_box_selection {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    flex-wrap: wrap;
+}
+
+.grey_box_selection .grey_box {
+    margin: 1rem;
+}
+
+.grey_box {
+    display: flex;
+    flex-direction: column !important;
+    align-items: center;
+    border: 1px solid black;
+    max-width: 15rem;
+    padding: .5rem;
+}
+
+#home .material-symbols-outlined {
+    font-size: 6rem;
+}
+
 .hidden {
     display: none;
 }
@@ -86,6 +129,14 @@ input[type="submit"] {
     background-color: #dee0e3;
 }
 
+.filter {
+    display: flex;
+    align-items: first baseline;
+    padding: .5rem;
+    display: flex;
+    justify-content: space-between;
+}
+
 #r_head {
     display: flex;
     align-items: first baseline;
@@ -120,19 +171,15 @@ input[type="submit"] {
     padding: .5rem;
     display: none;
     flex-direction: column;
-    width: 8rem;
+    width: 10rem;
     background: white;
-}
-
-.row {
-    display: flex;
-    flex-direction: row;
 }
 
 #report {
     border: 1px solid black;
     background-color: #dee0e3;
-    padding: 1rem 2rem;
+    padding: 1rem 0rem 2rem 3rem;
+    margin-left: 2rem;
 }
 
 #report a {
@@ -158,4 +205,66 @@ input[type="submit"] {
 
 #info .material-symbols-outlined {
     font-size: 6rem;
+}
+
+.results_img {
+    max-width: 35rem;
+}
+
+#filter_layout_1 {
+    display: flex;    
+    justify-content: center;
+}
+
+#filter_layout_2 {
+    display: flex;
+    flex-direction: column;
+    margin-right: 1rem;
+}
+
+#filter_dropdown {
+    border: 1px solid #dee0e3;
+}
+
+#filter_hint {
+    display: flex;
+    justify-content: space-between;
+}
+
+.filter_options {
+    background-color: #dee0e3;
+}
+
+.filter_highlight_parent {
+    position: relative;
+    margin-bottom: 1rem;
+}
+
+.filter_highlight {
+    position: absolute;
+    top: -1.6rem;
+    left: -.7rem;
+    font-size: 3rem;
+}
+
+#filter_hack:hover {
+    cursor: default;
+}
+
+.invisible {
+    display: none;
+}
+
+#filter_order {
+    position: relative;
+}
+
+#ascending {
+    position: absolute;
+    right: 0;
+}
+
+#descending {
+    position: absolute;
+    right: 0;
 }

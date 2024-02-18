@@ -1,32 +1,31 @@
 {% extends 'main/base.html'%} {% block content %}
+{% load static %}
 <p>Application: {{name}}</p>
 
 <div id="info">
-    <div>
+    <div onclick="demo()" class="cursor_on_hover">
         <h6>Application description</h6>
-        <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Autem magnam earum adipisci ducimus ea quibusdam
-            maiores possimus excepturi aliquid quo!</p>
+        <p>{{desc}}</p>
     </div>
-    <div>
+    <div onclick="why()" class="cursor_on_hover">
         <h6>Application flow chart</h6>
-        Some image...
+        <img style="max-width: 8rem;" src="{% static flow%}" />
     </div>
-    <div>
+    <div onclick="goToPerf()" class="cursor_on_hover">
         <h6>Application performance</h6>
-        Some image...
+        <img style="max-width: 8rem;" src="{% static perf%}" />
     </div>
-    <div>
+    <div onclick="goToReq()" class="cursor_on_hover">
         <h6>Data requirements</h6>
-        <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Autem magnam earum adipisci ducimus ea quibusdam
-            maiores possimus excepturi aliquid quo!</p>
+        <p>{{req}}</p>
     </div>
-    <div>
+    <div class="cursor_on_hover">
         <h6>Configure application</h6>
         <span class="material-symbols-outlined">
             tune
         </span>
     </div>
-    <div>
+    <div onclick="downloadd()" class="cursor_on_hover">
         <h6>Download application</h6>
         <span class="material-symbols-outlined">
             download
