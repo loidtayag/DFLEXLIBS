@@ -68,6 +68,9 @@ def resultss(req):
           elif filter == 'descending':
                data['validation_table'] = sorted(data['validation_table'], key=lambda item: item[0], reverse=True)
 
+     with open("data.txt", "w") as file:
+          json.dump(data, file)
+
      return render(req, "main/results.html", {'data': data, 'order': filter})
 
 def report(req):
@@ -82,9 +85,10 @@ def report(req):
 
      for item in data:
           if item[0] == want[0]:
+               print(item)
                data = item
                break
-
+     
      reasons = data[1:]     
      reasons_text = [s.split("http")[0] for s in reasons]
      reasons_link = ["http" + s.split("http")[1] for s in reasons]

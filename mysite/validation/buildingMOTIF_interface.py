@@ -171,9 +171,9 @@ def results(form_content):
     manifest_paths = {
         'shed os_zone_temp_adjs_rat':'mysite/validation//manifests_controls/manifest_shed_os_zone_temp_adjs_rat.ttl',
         'shed os_zone_temp_adjs_dem_rat':'mysite/validation//manifests_controls/manifest_shed_os_zone_temp_adjs_dem_rat.ttl',                  
-        # 'shift os_zone_precool_sim':'mysite/validation//manifests_controls/manifest_shift_os_zone_precool_sim.ttl',                  
-        # 'shift os_zone_precool_com':'mysite/validation//manifests_controls/manifest_shift_os_zone_precool_com.ttl',                  
-        # 'shift/shed os_zone_precool_sim_temp_adjs_rat':'mysite/validation//manifests_controls/manifest_shift_shed_os_zone_precool_sim_temp_adjs_rat.ttl'                  
+        'shift os_zone_precool_sim':'mysite/validation//manifests_controls/manifest_shift_os_zone_precool_sim.ttl',                  
+        'shift os_zone_precool_com':'mysite/validation//manifests_controls/manifest_shift_os_zone_precool_com.ttl',                  
+        'shift/shed os_zone_precool_sim_temp_adjs_rat':'mysite/validation//manifests_controls/manifest_shift_shed_os_zone_precool_sim_temp_adjs_rat.ttl'                  
     }
     
     return ValidationInterface(graph_path, manifest_paths).get_results()
