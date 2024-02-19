@@ -1,8 +1,8 @@
 # Add loading icon while waiting
-# Transcational error when you try to update again
+# Transcational error when you try to upload again
 # 1. What UI to use for home page search and filter in top right?
-# 2. How does the archetype and target schematic work?
 # Maybe use same as "http://localhost:8000/results" without the Valid page
+# 2. How does the archetype and target schematic work?
 
 image = 'demo/myImage.png'
 download = ['demo/myControl.py']
@@ -80,12 +80,12 @@ def getFilters():
 # For "http://localhost:8000/filter"
 # Discussion 2
 def archValidation(file):
-    # Some process to return its arch type from the arch types in getFilters
+    # Some process to return its arch type from the archtypes
     # If it doesn't work for any, then just return None
     return archtypes[0]
 
 # For "http://localhost:8000/filter"
 # Discussion 2
 def targetValidation(file):
-    # Same thing as archValidation() except for targets
+    # Same thing as archValidation() except for targets this time
     return targets[0]
