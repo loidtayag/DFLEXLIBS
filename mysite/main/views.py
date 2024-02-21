@@ -231,14 +231,17 @@ def downloadCon(req):
      data = ''
      index = req.GET.get('index')
      name = req.GET.get('name')
-     configs = json.loads(req.GET.get('configs'))
+     configs = req.GET.get('configs')
 
      if index:
+          index = int(index)
+
           with open("data.txt", "r") as file:
                data = json.loads(file.read())["validation_table"][index]
      
           paths = API.getConfigurationFiles(data[0], configs)
      elif name:     
+          configs = json.loads(configs)
           paths = API.getConfigurationFiles(name, configs)
 
      with zipfile.ZipFile('main/static/controls.zip', 'w') as zip:
@@ -263,10 +266,14 @@ def download(req):
      paths = []
 
      if index:
+          index = int(index)
+
           with open("data.txt", "r") as file:
                data = json.loads(file.read())["validation_table"][index]
      
           paths = API.getInformation(data[0])['download']
+          print("OOOOOOOOOOOOOOOOOOOOOO")
+          print(paths)
      elif name:     
           paths = API.getInformation(name)['download']
 

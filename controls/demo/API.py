@@ -1,7 +1,6 @@
 # Below is for frontend
 # Add loading icon while waiting
 # Transcational error when you try to upload again
-# Download and configurations download bug, ivalid zip
 # Create form for configuratoins page
 
 # Discussions
