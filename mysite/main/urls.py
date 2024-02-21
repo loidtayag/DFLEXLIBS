@@ -12,5 +12,6 @@ urlpatterns = [
     path("results/info/flow", views.flow, name="flow"),
     path("results/info/performance", views.performance, name="peformance"),
     path("results/info/requirements", views.requirements, name="requirements"),
+    path("results/info/configuration", views.configuration, name="configuration"),
     path("results/info/download", views.download, name="download")
 ]

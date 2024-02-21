@@ -1,0 +1,13 @@
+{% extends 'main/base.html'%} {% block content %}
+<p>Application: {{name}}</p>
+<div>
+    <p>Configure Application</p>
+    <pre id="report">
+       {{configuration | pprint}} 
+    </pre>
+
+    <button onclick="downloaddCon()">
+        Download configuration file
+    </button>
+</div>
+{% endblock %}

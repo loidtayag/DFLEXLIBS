@@ -207,6 +207,55 @@ def requirements(req):
      
           return render(req, "main/results/requirements.html", {'name': name, 'requirements': requirements})
 
+def configuration(req):
+     data = ''
+     index = req.GET.get('index')
+     name = req.GET.get('name')
+
+     if index:
+          index = int(index)
+          data = ''
+
+          with open("data.txt", "r") as file:
+               data = json.loads(file.read())["validation_table"][index]
+          
+          configuration = API.getInformation(data[0])['configuration']
+
+          return render(req, "main/results/configuration.html", {'name': data[0], 'configuration': configuration})
+     elif name:
+          configuration = API.getInformation(name)['configuration']
+
+          return render(req, "main/results/configuration.html", {'name': name, 'configuration': configuration})
+
+def downloadCon(req):
+     data = ''
+     index = req.GET.get('index')
+     name = req.GET.get('name')
+     configs = json.loads(req.GET.get('configs'))
+
+     if index:
+          with open("data.txt", "r") as file:
+               data = json.loads(file.read())["validation_table"][index]
+     
+          paths = API.getConfigurationFiles(data[0], configs)
+     elif name:     
+          paths = API.getConfigurationFiles(name, configs)
+
+     with zipfile.ZipFile('main/static/controls.zip', 'w') as zip:
+          for path in paths:
+               path = os.path.join(os.path.dirname(API_PATH.__file__), path)
+               
+               with open(path, 'r') as file:
+                    zip.writestr(os.path.basename(path), file.read())
+
+     response = None
+
+     with open('main/static/controls.zip', 'rb') as zip_response:
+          response = HttpResponse(zip_response.read(), content_type='application/zip')
+          response['Content-Disposition'] = f'attachment; filename=controls.zip'
+
+     return response
+
 def download(req):
      data = ''
      index = req.GET.get('index')

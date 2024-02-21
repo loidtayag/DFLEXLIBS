@@ -114,6 +114,51 @@ function goToReq() {
     }
 }
 
+function goToCon() {
+    const urlParams = new URLSearchParams(window.location.search);
+    const index = urlParams.get('index')
+    const name = urlParams.get('name')
+
+    if (index) {
+        window.location = '/results/info/configuration?index=' + index
+    }
+    else if (name) {
+        window.location = '/results/info/configuration?name=' + name
+    }
+}
+
+function downloaddCon() {
+    const urlParams = new URLSearchParams(window.location.search);
+    const index = urlParams.get('index')
+    const name = urlParams.get('name')
+
+    // Add logic to get form values and pass to request
+
+    if (index) {
+        fetch("/results/info/downloadCon?index=" + index).then(res => res.blob()).then(blob => {
+            console.log(blob)
+            const blobUrl = URL.createObjectURL(blob);
+            const link = document.createElement('a');
+            link.href = blobUrl;
+            link.download = 'controls.zip'
+            document.body.appendChild(link);
+            link.click();
+            document.body.removeChild(link);
+        })
+    }
+    else if (name) {
+        fetch("/results/info/downloadCon?name=" + name).then(res => res.blob()).then(blob => {
+            console.log(blob)
+            const blobUrl = URL.createObjectURL(blob);
+            const link = document.createElement('a');
+            link.href = blobUrl;
+            link.download = 'controls.zip'
+            document.body.appendChild(link);
+            link.click();
+            document.body.removeChild(link);
+        })    }
+}
+
 function downloadd() {
     const urlParams = new URLSearchParams(window.location.search);
     const index = urlParams.get('index')
