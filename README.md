@@ -157,7 +157,16 @@ Daily average power loads for the baseline and the flexible (shift and shed) con
    pip install tabulate
    ```
 
-4. Run application
+4. Install controls library
+   ...
+   python setup.py sdist bdist_wheel
+   ...
+   ...
+   pip install dist/controls-1.0-py3-none-any.whl
+   ...
+
+
+5. Run application
 
    ```
    python mysite/manage.py runserver 

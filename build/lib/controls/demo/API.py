@@ -1,6 +1,8 @@
+# Add loading icon while waiting
+# Transcational error when you try to upload again
 # 1. What UI to use for home page search and filter in top right?
-# 2. How does the archetype and target schematic work?
 # Maybe use same as "http://localhost:8000/results" without the Valid page
+# 2. How does the archetype and target schematic work?
 
 image = 'demo/myImage.png'
 download = ['demo/myControl.py']
@@ -43,14 +45,14 @@ apps = {
     }
 }
 
-# For "http://localhost:8000/results/info"
-def getInformation(control_name):
-    return apps[control_name]
-
 # For "http://localhost:8000/"
 # Discussion 1
 def getControls():
     return apps
+
+# For "http://localhost:8000/results/info"
+def getInformation(control_name):
+    return apps[control_name]
 
 archtypes =  ["Residential buildings (e.g. split systems)", "Small commercial buildings (e.g. package units)", "Large commerical buildings (e.g. built-up systems)"]
 targets = ["Zone level", "Distribution level",  "Plant level"]
@@ -78,12 +80,12 @@ def getFilters():
 # For "http://localhost:8000/filter"
 # Discussion 2
 def archValidation(file):
-    # Some process to return its arch type from the arch types in getFilters
+    # Some process to return its arch type from the archtypes
     # If it doesn't work for any, then just return None
     return archtypes[0]
 
 # For "http://localhost:8000/filter"
 # Discussion 2
 def targetValidation(file):
-    # Same thing as archValidation() except for targets
+    # Same thing as archValidation() except for targets this time
     return targets[0]

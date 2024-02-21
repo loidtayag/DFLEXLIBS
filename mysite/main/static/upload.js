@@ -64,37 +64,84 @@ function seeAppInfo(index) {
 
 function demo() {
     const urlParams = new URLSearchParams(window.location.search);
-    window.location = '/results/info/description?index=' + urlParams.get('index')
+    const index = urlParams.get('index')
+    const name = urlParams.get('name')
+
+    if (index) {
+        window.location = '/results/info/description?index=' + index
+    }
+    else if (name) {
+        window.location = '/results/info/description?name=' + name
+    }
 }
 
 function why() {
     const urlParams = new URLSearchParams(window.location.search);
-    window.location = '/results/info/flow?index=' + urlParams.get('index')
+    const index = urlParams.get('index')
+    const name = urlParams.get('name')
+
+    if (index) {
+        window.location = '/results/info/flow?index=' + index
+    }
+    else if (name) {
+        window.location = '/results/info/flow?name=' + name
+    }
 }
 
 function goToPerf() {
     const urlParams = new URLSearchParams(window.location.search);
-    window.location = '/results/info/performance?index=' + urlParams.get('index')
+    const index = urlParams.get('index')
+    const name = urlParams.get('name')
+
+    if (index) {
+        window.location = '/results/info/performance?index=' + index
+    }
+    else if (name) {
+        window.location = '/results/info/performance?name=' + name
+    }
 }
 
 function goToReq() {
     const urlParams = new URLSearchParams(window.location.search);
-    window.location = '/results/info/requirements?index=' + urlParams.get('index')
+    const index = urlParams.get('index')
+    const name = urlParams.get('name')
+
+    if (index) {
+        window.location = '/results/info/requirements?index=' + index
+    }
+    else if (name) {
+        window.location = '/results/info/requirements?name=' + name
+    }
 }
 
 function downloadd() {
-    const index = new URLSearchParams(window.location.search).get('index')
-    console.log(window.location.search)
-    fetch("/results/info/download?index=" + index).then(res => res.blob()).then(blob => {
-        console.log(blob)
-        const blobUrl = URL.createObjectURL(blob);
-        const link = document.createElement('a');
-        link.href = blobUrl;
-        link.download = 'controls.zip'
-        document.body.appendChild(link);
-        link.click();
-        document.body.removeChild(link);
-    })
+    const urlParams = new URLSearchParams(window.location.search);
+    const index = urlParams.get('index')
+    const name = urlParams.get('name')
+
+    if (index) {
+        fetch("/results/info/download?index=" + index).then(res => res.blob()).then(blob => {
+            console.log(blob)
+            const blobUrl = URL.createObjectURL(blob);
+            const link = document.createElement('a');
+            link.href = blobUrl;
+            link.download = 'controls.zip'
+            document.body.appendChild(link);
+            link.click();
+            document.body.removeChild(link);
+        })
+    }
+    else if (name) {
+        fetch("/results/info/download?name=" + name).then(res => res.blob()).then(blob => {
+            console.log(blob)
+            const blobUrl = URL.createObjectURL(blob);
+            const link = document.createElement('a');
+            link.href = blobUrl;
+            link.download = 'controls.zip'
+            document.body.appendChild(link);
+            link.click();
+            document.body.removeChild(link);
+        })    }
 }
 
 function download(index) {

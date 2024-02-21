@@ -116,79 +116,111 @@ def info(req):
      flow_path = os.path.join(os.path.dirname(API_PATH.__file__), flow_package_path)
      perf_path = os.path.join(os.path.dirname(API_PATH.__file__), perf_package_path)
      
-     with open(flow_path, 'rb') as file1:
-          with open("main/static/" + os.path.basename(flow_path), 'wb') as file2:
-               file2.write(file1.read())
+     # with open(flow_path, 'rb') as file1:
+     #      with open("main/static/" + os.path.basename(flow_path), 'wb') as file2:
+     #           file2.write(file1.read())
 
-     with open(perf_path, 'rb') as file1:
-          with open("main/static/" + os.path.basename(perf_path), 'wb') as file2:
-               file2.write(file1.read())
+     # with open(perf_path, 'rb') as file1:
+     #      with open("main/static/" + os.path.basename(perf_path), 'wb') as file2:
+     #           file2.write(file1.read())
 
      return render(req, "main/results/info.html", {'name': data[0], 'desc': desc, 'flow': os.path.basename(flow_path), 'perf': os.path.basename(perf_path), 'req': requirements})
 
 
 def description(req):
      data = ''
-     index = int(req.GET.get('index', ''))
+     index = req.GET.get('index')
+     name = req.GET.get('name')
 
-     with open("data.txt", "r") as file:
-          data = json.loads(file.read())["validation_table"][index]
+     if index:
+          index = int(index)
+          data = ''
+
+          with open("data.txt", "r") as file:
+               data = json.loads(file.read())["validation_table"][index]
+          
+          description = API.getInformation(data[0])['description']
+
+          return render(req, "main/results/desc.html", {'name': data[0], 'desc': description})
+     elif name:
+          description = API.getInformation(name)['description']
      
-     desc = API.getInformation(data[0])['description']
-
-     return render(req, "main/results/desc.html", {'name': data[0], 'desc': desc})
+          return render(req, "main/results/desc.html", {'name': name, 'desc': description})
 
 def flow(req):
      data = ''
-     index = int(req.GET.get('index', ''))
+     index = req.GET.get('index')
+     name = req.GET.get('name')
 
-     with open("data.txt", "r") as file:
-          data = json.loads(file.read())["validation_table"][index]
-     
-     package_path = API.getInformation(data[0])['flow_chart']
-     path = os.path.join(os.path.dirname(API_PATH.__file__), package_path)
-     
-     with open(path, 'rb') as file1:
-          with open("main/static/" + os.path.basename(path), 'wb') as file2:
-               file2.write(file1.read())
+     if index:
+          index = int(index)
+          with open("data.txt", "r") as file:
+               data = json.loads(file.read())["validation_table"][index]
+          
+          package_path = API.getInformation(data[0])['flow_chart']
+          path = os.path.join(os.path.dirname(API_PATH.__file__), package_path)
 
-     return render(req, "main/results/flow.html", {'name': data[0], 'path': os.path.basename(path)})
+          return render(req, "main/results/flow.html", {'name': data[0], 'path': os.path.basename(path)})
+     elif name:
+          package_path = API.getInformation(name)['flow_chart']
+          path = os.path.join(os.path.dirname(API_PATH.__file__), package_path)
+
+          return render(req, "main/results/flow.html", {'name': name, 'path': os.path.basename(path)})
 
 def performance(req):
      data = ''
-     index = int(req.GET.get('index', ''))
+     index = req.GET.get('index')
+     name = req.GET.get('name')
 
-     with open("data.txt", "r") as file:
-          data = json.loads(file.read())["validation_table"][index]
-     
-     package_path = API.getInformation(data[0])['performance']
-     path = os.path.join(os.path.dirname(API_PATH.__file__), package_path)
-     
-     with open(path, 'rb') as file1:
-          with open("main/static/" + os.path.basename(path), 'wb') as file2:
-               file2.write(file1.read())
+     if index:
+          index = int(index)
+          with open("data.txt", "r") as file:
+               data = json.loads(file.read())["validation_table"][index]
+          
+          package_path = API.getInformation(data[0])['performance']
+          path = os.path.join(os.path.dirname(API_PATH.__file__), package_path)
 
-     return render(req, "main/results/performance.html", {'name': data[0], 'path': os.path.basename(path)})
+          return render(req, "main/results/performance.html", {'name': data[0], 'path': os.path.basename(path)})
+     elif name:
+          package_path = API.getInformation(name)['performance']
+          path = os.path.join(os.path.dirname(API_PATH.__file__), package_path)
+     
+          return render(req, "main/results/performance.html", {'name': name, 'path': os.path.basename(path)})
 
 def requirements(req):
      data = ''
-     index = int(req.GET.get('index', ''))
+     index = req.GET.get('index')
+     name = req.GET.get('name')
 
-     with open("data.txt", "r") as file:
-          data = json.loads(file.read())["validation_table"][index]
+     if index:
+          index = int(index)
+          data = ''
+
+          with open("data.txt", "r") as file:
+               data = json.loads(file.read())["validation_table"][index]
+          
+          requirements = API.getInformation(data[0])['requirements']
+
+          return render(req, "main/results/requirements.html", {'name': data[0], 'requirements': requirements})
+     elif name:
+          requirements = API.getInformation(name)['requirements']
      
-     requirements = API.getInformation(data[0])['requirements']
-
-     return render(req, "main/results/requirements.html", {'name': data[0], 'requirements': requirements})
+          return render(req, "main/results/requirements.html", {'name': name, 'requirements': requirements})
 
 def download(req):
      data = ''
-     index = int(req.GET.get('index', ''))
+     index = req.GET.get('index')
+     name = req.GET.get('name')
+     paths = []
 
-     with open("data.txt", "r") as file:
-          data = json.loads(file.read())["validation_table"][index]
+     if index:
+          with open("data.txt", "r") as file:
+               data = json.loads(file.read())["validation_table"][index]
      
-     paths = API.getInformation(data[0])['download']
+          paths = API.getInformation(data[0])['download']
+     elif name:     
+          paths = API.getInformation(name)['download']
+
      with zipfile.ZipFile('main/static/controls.zip', 'w') as zip:
           for path in paths:
                path = os.path.join(os.path.dirname(API_PATH.__file__), path)
