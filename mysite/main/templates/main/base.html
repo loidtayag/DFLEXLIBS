@@ -15,25 +15,14 @@
 
 <body style="max-width: 80%;">
   <h3>Welcome to DFLEXLIBS!</h3>
-  <div class="filter">
-    <div><a href="/">Home</a></div>
-    <div>
-      <div>
-        Search
-        <span class="material-symbols-outlined">
-          search
-        </span>
-      </div>
-      <div>Filter by</div>
-    </div>
-  </div>
-
+  <a href="/">Home</a></div>
+  
   <hr/>
   {% if request.path == "/" %}
   <div id="home" class="grey_box_selection">
     <a href="/filter" class="grey_box">
       <p>
-        Navigate the library's controls
+        Filter the library's controls
       </p>
       <span class="material-symbols-outlined">
         assistant_direction
@@ -44,6 +33,13 @@
       </p>
       <span class="material-symbols-outlined">
         verified
+      </span>
+    </a>
+    <a href="/applications" class="grey_box">
+      <p> Search the library's controls
+      </p>
+      <span class="material-symbols-outlined">
+        search
       </span>
     </a>
   </div>

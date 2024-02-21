@@ -1,13 +1,10 @@
-# Below is for frontend
 # Create form for configuratoins page
+# Don't write to local file, instead use JS to write onto local storage
 # Transcational error when you upload on a load of apps and you press home page to cancel
 # the upload and then go back to upload, it breaks the upload feature which is vital
 # Simple but crude solution could be to just not let the user press anything when they upload
 
 # Discussions
-# 1. What UI to use for home page search and filter in top right?
-# Maybe use same as "http://localhost:8000/results" without the Valid column
-# Or just add a third box in the home page
 # 2. How does the archetype and target schematic work?
 # 3. How does the configuration download work?
 
@@ -142,8 +139,7 @@ apps = {
     }
 }
 
-# For "http://localhost:8000/"
-# Discussion 1
+# For "http://localhost:8000/applications"
 def getControls():
     return apps
 

@@ -6,6 +6,7 @@ urlpatterns = [
     path("upload", views.upload, name="upload"),
     path("filter", views.filter, name="filter"),
     path("results", views.resultss, name="results"),
+    path("applications", views.applications, name="applications"),
     path("results/report", views.report, name="report"),
     path("results/info", views.info, name="info"),
     path("results/info/description", views.description, name="description"),

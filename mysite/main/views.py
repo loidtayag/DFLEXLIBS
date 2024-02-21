@@ -57,6 +57,28 @@ def filter(req):
      
      return render(req, "main/filter.html", {'toShow': toShow, 'title_upper': title_upper, 'title_lower': title_lower})
 
+def applications(req):
+     filter = req.GET.get('order')
+     data = list(API.getControls().keys())
+
+     if filter is None or filter == 'ascending':
+          data = sorted(data)
+     elif filter == 'descending':
+          data = sorted(data, reverse=True)
+
+     with open("data.txt", "w") as file:
+          temp = {
+               "validation_table": [],
+               "suitable_controlApps": [], 
+          "non_suitable_controlApps": []
+          }
+          temp["validation_table"] = [[item, True] for item in data]
+          temp["suitable_controlApps"] = data
+          data = temp
+          json.dump(data, file)
+
+     return render(req, "main/applications.html", {'data': data, 'order': filter})
+
 def resultss(req):
      data = ''
      filter = req.GET.get('order')

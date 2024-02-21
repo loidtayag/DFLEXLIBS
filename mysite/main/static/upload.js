@@ -58,7 +58,7 @@ function seeResults() {
 function seeOptions(index, length) {
     for (let i = 0; i < length; i++) {
         if (i != index) {
-            document.getElementById("r_options" + i).style.display = "none";
+                        document.getElementById("r_options" + i).style.display = "none";
         }
     }
 
@@ -270,4 +270,8 @@ function goToTarget() {
 
 function filterResults(order) {
     window.location.href = 'results?order=' + order
+}
+
+function filterResultsAll(order) {
+    window.location.href = 'applications?order=' + order
 }
