@@ -1,7 +1,8 @@
 # Below is for frontend
-# Add loading icon while waiting
-# Transcational error when you try to upload again
 # Create form for configuratoins page
+# Transcational error when you upload on a load of apps and you press home page to cancel
+# the upload and then go back to upload, it breaks the upload feature which is vital
+# Simple but crude solution could be to just not let the user press anything when they upload
 
 # Discussions
 # 1. What UI to use for home page search and filter in top right?

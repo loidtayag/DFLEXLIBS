@@ -1,5 +1,5 @@
 {% extends 'main/base.html'%} {% block content %}
-<form method="post" action="upload" enctype="multipart/form-data">
+<form method="post" id="uploadForm" action="upload">
   {% csrf_token %}
   <p>Upload your semantic model (brick)</p>
   <div id="upload">
@@ -11,31 +11,33 @@
   </div>
 </form>
 
-{% if uploaded %}
-<br />
-<br />
-<div id="results">
-  <div id="results_header">
-    <p>Model Validation</p>
-    <span class="material-symbols-outlined" onclick="cancelResults()">
-      close
-    </span>
-  </div>
+<p id="loading" class="invisible">Loading...</p>
 
-  <hr/>
-  <div id="results_choice">
-    <p>
-    Your model has been uploaded and validated
-    </p>
-    <div id="choices">
-      <button onclick="cancelResults()">
-        CANCEL
-      </button>
-      <button class="grey_background" onclick="seeResults()">
-        SEE RESULTS
-      </button>
+<div id="invisible_container" class="invisible">
+  <br />
+  <br />
+  <div id="results">
+    <div id="results_header">
+      <p>Model Validation</p>
+      <span class="material-symbols-outlined" onclick="cancelResults()">
+        close
+      </span>
+    </div>
+
+    <hr />
+    <div id="results_choice">
+      <p>
+        Your model has been uploaded and validated
+      </p>
+      <div id="choices">
+        <button onclick="cancelResults()">
+          CANCEL
+        </button>
+        <button class="grey_background" onclick="seeResults()">
+          SEE RESULTS
+        </button>
+      </div>
     </div>
   </div>
 </div>
-{% endif %}
 {% endblock %}

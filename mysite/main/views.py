@@ -31,11 +31,11 @@ def upload(req):
                with open("data.txt", "w") as file:
                     file.write(data)
 
-               return render(req, "main/upload.html", {"form": Upload(), "uploaded": uploaded, 'suitable_controlApps': json.loads(data)["suitable_controlApps"], 'non_suitable_controlApps': json.loads(data)["non_suitable_controlApps"], "data": data, 'uploaded': True})
+               return HttpResponse(data, content_type='text')
           else:
                data = 'File data is invalidd'
 
-     return render(req, "main/upload.html", {"form": Upload(), "uploaded": uploaded, 'suitable_controlApps': '', 'non_suitable_controlApps': '', "data": data, 'uploaded': False})
+     return render(req, "main/upload.html", {"form": Upload()})
 
 def filter(req):
      zone = req.GET.get("zone")

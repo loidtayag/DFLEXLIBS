@@ -27,10 +27,28 @@ document.addEventListener("DOMContentLoaded", () => {
             ascending.classList.remove('invisible')
         }
     }
+
+    document.getElementById("uploadForm").addEventListener('submit', function (e) {
+        e.preventDefault()
+        document.getElementById('loading').classList.remove('invisible') 
+
+        var formData = new FormData(this);
+        console.log(formData)
+        fetch(this.action, {
+            method: this.method,
+            body: formData,
+        }).then(res => { 
+            return res.json() 
+        }).then(data => {
+            document.getElementById('invisible_container').classList.remove('invisible')
+        }).finally(() => {
+            document.getElementById('loading').classList.add('invisible') 
+        });
+    })
 })
 
 function cancelResults() {
-    window.location = "upload"
+    document.getElementById('invisible_container').classList.add('invisible')
 }
 
 function seeResults() {
@@ -157,7 +175,8 @@ function downloadCon() {
             document.body.appendChild(link);
             link.click();
             document.body.removeChild(link);
-        })    }
+        })
+    }
 }
 
 function downloadd() {
@@ -187,7 +206,8 @@ function downloadd() {
             document.body.appendChild(link);
             link.click();
             document.body.removeChild(link);
-        })    }
+        })
+    }
 }
 
 function download(index) {
@@ -208,12 +228,12 @@ function searchResults() {
     const els = document.querySelectorAll('[class^="results_name_"]');
     console.log(els)
     els.forEach(el => {
-        const className = el.className; 
-        const suffix = className.slice("results_name_".length); 
+        const className = el.className;
+        const suffix = className.slice("results_name_".length);
         if (!suffix.startsWith(value)) {
-            el.style.display = 'none';  
+            el.style.display = 'none';
         } else {
-            el.style.display = ''; 
+            el.style.display = '';
         }
     });
 }
@@ -225,10 +245,10 @@ function filters(selected) {
     redirect = window.location.href
 
     if (!zone && !target) {
-        redirect += "?zone=" + selected 
+        redirect += "?zone=" + selected
     }
     else if (zone && !target) {
-        redirect += "&target=" + selected 
+        redirect += "&target=" + selected
     }
     else if (zone && target) {
         console.log("results/info?name=" + selected)
@@ -251,5 +271,3 @@ function goToTarget() {
 function filterResults(order) {
     window.location.href = 'results?order=' + order
 }
-
-
