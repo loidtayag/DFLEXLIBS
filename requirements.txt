@@ -1,11 +1,4 @@
-rdflib
-pandas
-numpy
-matplotlib
-pyyaml
-requests
-buildingmotif
-typing
-notebook
-ipykernel
-pipenv
+asgiref==3.7.2
+Django==5.0.3
+sqlparse==0.4.4
+tzdata==2024.1

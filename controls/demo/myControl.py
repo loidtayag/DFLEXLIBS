@@ -1,2 +1,0 @@
-def sayHi():
-    return "Hello"

@@ -1,21 +1,11 @@
 [[source]]
-name = "pypi"
 url = "https://pypi.org/simple"
 verify_ssl = true
-
-[dev-packages]
-pyshacl = "*"
-python-dotenv = "*"
-ipykernel = "*"
-typing = "*"
+name = "pypi"
 
 [packages]
-rdflib = "*"
-controls = {path = ".", editable = true}
-requests = "*"
-pandas = "*"
-matplotlib = "*"
-numpy = "*"
-pyyaml = "*"
-buildingmotif = "*"
-notebook = "*"
+
+[dev-packages]
+
+[requires]
+python_version = "3.11"
