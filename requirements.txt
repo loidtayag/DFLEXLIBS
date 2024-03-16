@@ -1,9 +1,8 @@
-asgiref
 Django==4.2.11
+asgiref
 sqlparse
 typing_extensions
 tzdata
 rdflib
 buildingmotif==0.1.0a0
 tabulate
-whitenoise
