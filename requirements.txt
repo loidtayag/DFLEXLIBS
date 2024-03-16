@@ -4,6 +4,6 @@ sqlparse==0.4.4
 typing_extensions==4.10.0
 tzdata==2024.1
 rdflib
-buildingmotif
+buildingmotif==0.1.0a0
 typing
 tabulate
