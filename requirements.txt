@@ -6,3 +6,4 @@ tzdata
 rdflib
 buildingmotif==0.1.0a0
 tabulate
+sqlite3
