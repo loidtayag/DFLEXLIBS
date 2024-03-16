@@ -139,9 +139,11 @@ class ValidationInterface:
 
             if validation_result.valid == True:
                 suitable_controlApps.append(key)
-
+        
             # Add reasons for each diff if available
             for diff in validation_result.diffset:
+                # for key in diff:
+                #     print("key: %s , value: %s" % (key, diff[key]))
                 non_suitable_reason.append([key, diff.reason()]) 
 
             # Append the row to the overall table data
@@ -169,11 +171,11 @@ def results(form_content):
     graph_path = 'graph.ttl'
     
     manifest_paths = {
-        'shed os_zone_temp_adjs_rat':'mysite/validation//manifests_controls/manifest_shed_os_zone_temp_adjs_rat.ttl',
-        'shed os_zone_temp_adjs_dem_rat':'mysite/validation//manifests_controls/manifest_shed_os_zone_temp_adjs_dem_rat.ttl',                  
-        # 'shift os_zone_precool_sim':'mysite/validation//manifests_controls/manifest_shift_os_zone_precool_sim.ttl',                  
-        # 'shift os_zone_precool_com':'mysite/validation//manifests_controls/manifest_shift_os_zone_precool_com.ttl',                  
-        # 'shift/shed os_zone_precool_sim_temp_adjs_rat':'mysite/validation//manifests_controls/manifest_shift_shed_os_zone_precool_sim_temp_adjs_rat.ttl'                  
+        'shed os_zone_temp_adjs_rat':'mySite/DFLEXLIBS/validation//manifests_controls/manifest_shed_os_zone_temp_adjs_rat.ttl',
+        'shed os_zone_temp_adjs_dem_rat':'mySite/DFLEXLIBS//validation//manifests_controls/manifest_shed_os_zone_temp_adjs_dem_rat.ttl',                  
+        # 'shift os_zone_precool_sim':'mySite/DFLEXLIBS//validation//manifests_controls/manifest_shift_os_zone_precool_sim.ttl',                  
+        # 'shift os_zone_precool_com':'mySite/DFLEXLIBS//validation//manifests_controls/manifest_shift_os_zone_precool_com.ttl',                  
+        # 'shift/shed os_zone_precool_sim_temp_adjs_rat':'mySite/DFLEXLIBS//validation//manifests_controls/manifest_shift_shed_os_zone_precool_sim_temp_adjs_rat.ttl'                  
     }
     
     return ValidationInterface(graph_path, manifest_paths).get_results()

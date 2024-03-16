@@ -4,7 +4,7 @@ from .forms import Upload
 from rdflib import Graph
 from .DFLEXLIBS.validation.buildingMOTIF_interface import results
 import json
-import controls as API_PATH
+from .DFLEXLIBS.controls import demo as API_PATH
 from .DFLEXLIBS.controls.demo import API
 import base64
 import zipfile
