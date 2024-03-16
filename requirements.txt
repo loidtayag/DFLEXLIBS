@@ -3,7 +3,7 @@ Django==4.2.11
 sqlparse==0.4.4
 typing_extensions==4.10.0
 tzdata==2024.1
-rdflib
+rdflib==6.1.1
 buildingmotif==0.1.0a0
-typing
+typing==3.7.4.3
 tabulate
