@@ -50,7 +50,7 @@ MIDDLEWARE = [
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
 ]
 
-ROOT_URLCONF = "versel_deploymet.urls"
+ROOT_URLCONF = "myApp.urls"
 
 TEMPLATES = [
     {
@@ -68,7 +68,7 @@ TEMPLATES = [
     },
 ]
 
-WSGI_APPLICATION = "versel_deploymet.wsgi.application"
+WSGI_APPLICATION = "myApp.wsgi.application"
 
 
 # Database
@@ -118,8 +118,8 @@ USE_TZ = True
 
 import os
 STATIC_URL = 'mySite/static/'
-STATICFILES_DIRS = os.path.join(BASE_DIR, 'mySite/static'),
-STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles_build', 'mySite/static')
+STATICFILES_DIRS = [os.path.join(BASE_DIR, 'mySite/static')],
+# STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles_build', 'mySite/static')
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/5.0/ref/settings/#default-auto-field
