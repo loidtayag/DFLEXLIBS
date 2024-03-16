@@ -3,3 +3,4 @@ controls.egg-info/
 *.log
 dist/
 *.zip
+static/
