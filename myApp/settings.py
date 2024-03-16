@@ -50,7 +50,7 @@ MIDDLEWARE = [
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
 ]
 
-ROOT_URLCONF = "myApp.urls"
+ROOT_URLCONF = "versel_deploymet.urls"
 
 TEMPLATES = [
     {
@@ -68,7 +68,7 @@ TEMPLATES = [
     },
 ]
 
-WSGI_APPLICATION = "myApp.wsgi.application"
+WSGI_APPLICATION = "versel_deploymet.wsgi.application"
 
 
 # Database
