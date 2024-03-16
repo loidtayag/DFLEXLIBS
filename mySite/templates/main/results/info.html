@@ -1,0 +1,35 @@
+{% extends 'main/base.html'%} {% block content %}
+{% load static %}
+<p>Application: {{name}}</p>
+
+<div id="info">
+    <div onclick="demo()" class="cursor_on_hover">
+        <h6>Application description</h6>
+        <p>{{desc}}</p>
+    </div>
+    <div onclick="why()" class="cursor_on_hover">
+        <h6>Application flow chart</h6>
+        <img style="max-width: 8rem;" src="{% static flow%}" />
+    </div>
+    <div onclick="goToPerf()" class="cursor_on_hover">
+        <h6>Application performance</h6>
+        <img style="max-width: 8rem;" src="{% static perf%}" />
+    </div>
+    <div onclick="goToReq()" class="cursor_on_hover">
+        <h6>Data requirements</h6>
+        <p>{{req}}</p>
+    </div>
+    <div onclick="goToCon()" class="cursor_on_hover">
+        <h6>Configure application</h6>
+        <span class="material-symbols-outlined">
+            tune
+        </span>
+    </div>
+    <div onclick="downloadd()" class="cursor_on_hover">
+        <h6>Download application</h6>
+        <span class="material-symbols-outlined">
+            download
+        </span>
+    </div>
+</div>
+{% endblock %}

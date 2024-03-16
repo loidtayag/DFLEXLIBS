@@ -1,2 +1,5 @@
-ignore/
 __pycache__/
+controls.egg-info/
+*.log
+dist/
+*.zip
