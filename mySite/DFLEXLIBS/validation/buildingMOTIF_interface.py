@@ -109,6 +109,14 @@ class ValidationInterface:
 
             #print(model.graph.serialize())
 
+            # NB This is for the server so uncomment when deploying
+            #
+            # # load libraries included with the python package
+            # constraint = Library.load(ontology_graph="loidtayag/demo/DFLEXLIBS/mySite/DFLEXLIBS/validation/constraints.ttl")
+
+            # # load libraries excluded from the python package (available from the repository)
+            # brick = Library.load(ontology_graph="loidtayag/demo/DFLEXLIBS/mySite/DFLEXLIBS/validation/Brick-subset.ttl")
+
             # load libraries included with the python package
             constraint = Library.load(ontology_graph="mySite/DFLEXLIBS/validation/constraints.ttl")
 
@@ -142,8 +150,6 @@ class ValidationInterface:
         
             # Add reasons for each diff if available
             for diff in validation_result.diffset:
-                # for key in diff:
-                #     print("key: %s , value: %s" % (key, diff[key]))
                 non_suitable_reason.append([key, diff.reason()]) 
 
             # Append the row to the overall table data
@@ -177,5 +183,15 @@ def results(form_content):
         # 'shift os_zone_precool_com':'mySite/DFLEXLIBS//validation//manifests_controls/manifest_shift_os_zone_precool_com.ttl',                  
         # 'shift/shed os_zone_precool_sim_temp_adjs_rat':'mySite/DFLEXLIBS//validation//manifests_controls/manifest_shift_shed_os_zone_precool_sim_temp_adjs_rat.ttl'                  
     }
+
+    # NB This is for the server so uncomment when deploying
+    #
+    # manifest_paths = {
+    #     'shed os_zone_temp_adjs_rat':'loidtayag/demo/DFLEXLIBS/mySite/DFLEXLIBS/validation/manifests_controls/manifest_shed_os_zone_temp_adjs_rat.ttl',
+    #     'shed os_zone_temp_adjs_dem_rat':'loidtayag/demo/DFLEXLIBS/mySite/DFLEXLIBS/validation/manifests_controls/manifest_shed_os_zone_temp_adjs_dem_rat.ttl',                  
+    #     # 'shift os_zone_precool_sim':'loidtayag/demo/DFLEXLIBS/mySite/DFLEXLIBS/validation/manifests_controls/manifest_shift_os_zone_precool_sim.ttl',                  
+    #     # 'shift os_zone_precool_com':'loidtayag/demo/DFLEXLIBS/mySite/DFLEXLIBS/validation/manifests_controls/manifest_shift_os_zone_precool_com.ttl',                  
+    #     # 'shift/shed os_zone_precool_sim_temp_adjs_rat':'loidtayag/demo/DFLEXLIBS/mySite/DFLEXLIBS/validation//manifests_controls/manifest_shift_shed_os_zone_precool_sim_temp_adjs_rat.ttl'                  
+    # }
     
     return ValidationInterface(graph_path, manifest_paths).get_results()
