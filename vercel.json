@@ -6,10 +6,6 @@
     }],
     "routes": [
         {
-            "src": "/mySite/static",
-            "dest": "/mySite/static"
-        },
-        {
             "src": "/(.*)",
             "dest": "myApp/wsgi.py"
         }
