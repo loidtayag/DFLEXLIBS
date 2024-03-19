@@ -1,0 +1,41 @@
+{% extends 'base.html'%} {% block content %}
+<div id="upload">
+  <form method="post" id="upload_form" action="validate">
+    {% csrf_token %}
+    <h6>Upload your semantic model (brick)</h6>
+    <div id="upload_form_input">
+      <div id="file">
+        <label for="upload_file" id="upload_file_label">Attach semantic model</label>
+        <input class="invisible" id="upload_file" type="file" name="file" accept=".ttl" required>
+      </div>
+      <button id="upload_submit" type="submit">UPLOAD</button>
+    </div>
+  </form>
+
+  <p id="upload_loading" class="invisible">Loading...</p>
+
+  <br/>
+  <div id="upload_results" class="invisible">
+    <div id="upload_results_header">
+      <h4>Model Validation</h4>
+      <span id="upload_results_header_icon" class="material-symbols-outlined icon" onclick="cancelResults()">
+        close
+      </span>
+    </div>
+
+    <div id="upload_results_options_wrapper">
+      <p>
+        Your model has been uploaded and validated.
+      </p>
+      <div id="upload_results_options">
+        <button onclick="cancelResults()">
+          CANCEL
+        </button>
+        <button onclick="goToResults()">
+          SEE RESULTS
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}

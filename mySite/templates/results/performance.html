@@ -1,0 +1,10 @@
+{% extends 'base.html'%} {% block content %}
+{% load static %}
+<h5>Application: {{name}}</h5>
+<div class="resultss_box_wrapper">
+    <h6>Performance</h6>
+    <div class="resultss_box">
+        <img class="resultss_img" src="{% static path%}" />
+    </div>
+</div>
+{% endblock %}

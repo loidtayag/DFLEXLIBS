@@ -4,18 +4,60 @@ from .forms import Upload
 from rdflib import Graph
 from .DFLEXLIBS.validation.buildingMOTIF_interface import results
 import json
-from .DFLEXLIBS.controls import demo as API_PATH
+from .DFLEXLIBS import controls as API_PATH
 from .DFLEXLIBS.controls.demo import API
-import base64
 import zipfile
 import os
 
 # Create your views here.
 
-def index(request):
-     return render(request, "main/base.html", {})
+def base(request):
+     return render(request, "base.html", {})
 
-def upload(req):
+def search(request):
+     filter = request.GET.get('order')
+     data = list(API.getControls().keys())
+
+     if filter is None or filter == 'ascending':
+          data = sorted(data)
+     elif filter == 'descending':
+          data = sorted(data, reverse=True)
+
+     temp = {
+          "validation_table": [],
+          "suitable_controlApps": [], 
+          "non_suitable_controlApps": []
+     }
+     temp["validation_table"] = [[item, True] for item in data]
+     temp["suitable_controlApps"] = data
+     data = temp
+
+     res = render(request, "results.html", {'data': data, 'order': filter})
+     res.set_cookie('data', json.dumps(data))
+     
+     return res
+
+def navigate(req):
+     archetype = req.GET.get("archetype")
+     target = req.GET.get("target")
+     options = None
+     prompt_upper = 'Archetype'
+     prompt_lower = 'archetype'
+
+     if archetype == None and target == None:
+          options = API.getFilters().keys()
+     elif archetype != None and target == None:
+          prompt_upper = 'Target level'
+          prompt_lower = 'target level'
+          options = API.getFilters()[archetype].keys()
+     elif archetype != None and target != None:
+          prompt_upper = 'Strategy'
+          prompt_lower = 'application'
+          options = API.getFilters()[archetype][target]
+     
+     return render(req, "navigate.html", {'options': options, 'prompt_upper': prompt_upper, 'prompt_lower': prompt_lower})
+
+def validate(req):
      data = "Upload graph first" 
      uploaded = "Upload graph first" 
           
@@ -28,86 +70,47 @@ def upload(req):
                uploaded = graph.serialize()
                data = results(uploaded)      
 
-               with open("data.txt", "w") as file:
-                    file.write(data)
-
                return HttpResponse(data, content_type='text')
           else:
-               data = 'File data is invalidd'
+               data = 'File data is invalid'
 
-     return render(req, "main/upload.html", {"form": Upload()})
-
-def filter(req):
-     zone = req.GET.get("zone")
-     target = req.GET.get("target")
-     toShow = None
-     title_upper = 'Archetype'
-     title_lower = 'archetype'
-
-     if zone == None and target == None:
-          toShow = API.getFilters().keys()
-     elif zone != None and target == None:
-          title_upper = 'Target level'
-          title_lower = 'target level'
-          toShow = API.getFilters()[zone].keys()
-     elif zone != None and target != None:
-          title_upper = 'Strategy'
-          title_lower = 'application'
-          toShow = API.getFilters()[zone][target]
-     
-     return render(req, "main/filter.html", {'toShow': toShow, 'title_upper': title_upper, 'title_lower': title_lower})
-
-def applications(req):
-     filter = req.GET.get('order')
-     data = list(API.getControls().keys())
-
-     if filter is None or filter == 'ascending':
-          data = sorted(data)
-     elif filter == 'descending':
-          data = sorted(data, reverse=True)
-
-     with open("data.txt", "w") as file:
-          temp = {
-               "validation_table": [],
-               "suitable_controlApps": [], 
-          "non_suitable_controlApps": []
-          }
-          temp["validation_table"] = [[item, True] for item in data]
-          temp["suitable_controlApps"] = data
-          data = temp
-          json.dump(data, file)
-
-     return render(req, "main/applications.html", {'data': data, 'order': filter})
+     return render(req, "validate.html", {"form": Upload()})
 
 def resultss(req):
-     data = ''
      filter = req.GET.get('order')
+     data = json.loads(req.COOKIES.get('data'))
+     valid = req.GET.get('valid')
 
-     with open("data.txt", "r") as file:
-          data = json.loads(file.read())
-          if filter is None or filter == 'ascending':
-               data['validation_table'] = sorted(data['validation_table'], key=lambda item: item[0])
-          elif filter == 'descending':
-               data['validation_table'] = sorted(data['validation_table'], key=lambda item: item[0], reverse=True)
+     temp = {
+          "validation_table": [],
+          "suitable_controlApps": [], 
+          "non_suitable_controlApps": []
+     }
 
-     with open("data.txt", "w") as file:
-          json.dump(data, file)
+     if filter == 'ascending':
+          temp["validation_table"] = sorted(data["validation_table"], key=lambda item: item[0])
+     elif filter == 'descending':
+          temp["validation_table"] = sorted(data["validation_table"], key=lambda item: item[0], reverse = True)
+     elif filter == None:
+          temp["validation_table"] = data["validation_table"]
 
-     return render(req, "main/results.html", {'data': data, 'order': filter})
+     temp["suitable_controlApps"] = data['suitable_controlApps']
+     temp["non_suitable_controlApps"] = data['non_suitable_controlApps']
+     data = temp
+
+     res = render(req, "results.html", {'data': data})
+     res.set_cookie('data', json.dumps(data))
+     
+     return res
 
 def report(req):
-     data = ''
+     data = json.loads(req.COOKIES.get('data'))
      index = int(req.GET.get('index', ''))
-     want = ''
-
-     with open("data.txt", "r") as file:
-          data = json.loads(file.read())
-          want = data["validation_table"][index]
-          data = data['non_suitable_controlApps']
+     want =  data["validation_table"][index]
+     data = data['non_suitable_controlApps']
 
      for item in data:
           if item[0] == want[0]:
-               print(item)
                data = item
                break
      
@@ -115,18 +118,16 @@ def report(req):
      reasons_text = [s.split("http")[0] for s in reasons]
      reasons_link = ["http" + s.split("http")[1] for s in reasons]
      reasons = list(zip(reasons_text, reasons_link))
-     return render(req, "main/results/report.html", {'name': data[0], 'reasons': reasons})
+     return render(req, "results/report.html", {'name': data[0], 'reasons': reasons})
     
 def info(req):
-     data = ''
+     data = json.loads(req.COOKIES.get('data'))
      index = req.GET.get('index', '')
      name = req.GET.get('name', '')
 
      if index:
           index = int(index)
-
-          with open("data.txt", "r") as file:
-               data = json.loads(file.read())["validation_table"][index]
+          data = data["validation_table"][index]
      elif name:
           data = [name]
 
@@ -137,129 +138,107 @@ def info(req):
      perf_package_path = API.getInformation(data[0])['performance']
      flow_path = os.path.join(os.path.dirname(API_PATH.__file__), flow_package_path)
      perf_path = os.path.join(os.path.dirname(API_PATH.__file__), perf_package_path)
-     
-     # with open(flow_path, 'rb') as file1:
-     #      with open("main/static/" + os.path.basename(flow_path), 'wb') as file2:
-     #           file2.write(file1.read())
 
-     # with open(perf_path, 'rb') as file1:
-     #      with open("main/static/" + os.path.basename(perf_path), 'wb') as file2:
-     #           file2.write(file1.read())
-
-     return render(req, "main/results/info.html", {'name': data[0], 'desc': desc, 'flow': os.path.basename(flow_path), 'perf': os.path.basename(perf_path), 'req': requirements})
-
+     return render(req, "results/info.html", {'name': data[0], 'desc': desc, 'flow': os.path.basename(flow_path), 'perf': os.path.basename(perf_path), 'req': requirements})
 
 def description(req):
-     data = ''
+     data = json.loads(req.COOKIES.get('data'))
      index = req.GET.get('index')
      name = req.GET.get('name')
 
      if index:
           index = int(index)
-          data = ''
-
-          with open("data.txt", "r") as file:
-               data = json.loads(file.read())["validation_table"][index]
+          data = data["validation_table"][index]
           
           description = API.getInformation(data[0])['description']
 
-          return render(req, "main/results/desc.html", {'name': data[0], 'desc': description})
+          return render(req, "results/desc.html", {'name': data[0], 'desc': description})
      elif name:
           description = API.getInformation(name)['description']
      
-          return render(req, "main/results/desc.html", {'name': name, 'desc': description})
+          return render(req, "results/desc.html", {'name': name, 'desc': description})
 
 def flow(req):
-     data = ''
+     data = json.loads(req.COOKIES.get('data'))
      index = req.GET.get('index')
      name = req.GET.get('name')
 
      if index:
           index = int(index)
-          with open("data.txt", "r") as file:
-               data = json.loads(file.read())["validation_table"][index]
+          data = json.loads(req.COOKIES.get('data'))["validation_table"][index]
           
           package_path = API.getInformation(data[0])['flow_chart']
           path = os.path.join(os.path.dirname(API_PATH.__file__), package_path)
 
-          return render(req, "main/results/flow.html", {'name': data[0], 'path': os.path.basename(path)})
+          return render(req, "results/flow.html", {'name': data[0], 'path': os.path.basename(path)})
      elif name:
           package_path = API.getInformation(name)['flow_chart']
           path = os.path.join(os.path.dirname(API_PATH.__file__), package_path)
 
-          return render(req, "main/results/flow.html", {'name': name, 'path': os.path.basename(path)})
+          return render(req, "results/flow.html", {'name': name, 'path': os.path.basename(path)})
 
 def performance(req):
-     data = ''
+     data = json.loads(req.COOKIES.get('data'))
      index = req.GET.get('index')
      name = req.GET.get('name')
 
      if index:
           index = int(index)
-          with open("data.txt", "r") as file:
-               data = json.loads(file.read())["validation_table"][index]
+          data = data["validation_table"][index]
           
           package_path = API.getInformation(data[0])['performance']
           path = os.path.join(os.path.dirname(API_PATH.__file__), package_path)
 
-          return render(req, "main/results/performance.html", {'name': data[0], 'path': os.path.basename(path)})
+          return render(req, "results/performance.html", {'name': data[0], 'path': os.path.basename(path)})
      elif name:
           package_path = API.getInformation(name)['performance']
           path = os.path.join(os.path.dirname(API_PATH.__file__), package_path)
      
-          return render(req, "main/results/performance.html", {'name': name, 'path': os.path.basename(path)})
+          return render(req, "results/performance.html", {'name': name, 'path': os.path.basename(path)})
 
 def requirements(req):
-     data = ''
+     data = json.loads(req.COOKIES.get('data'))
      index = req.GET.get('index')
      name = req.GET.get('name')
 
      if index:
           index = int(index)
-          data = ''
-
-          with open("data.txt", "r") as file:
-               data = json.loads(file.read())["validation_table"][index]
+          data = data["validation_table"][index]
           
           requirements = API.getInformation(data[0])['requirements']
 
-          return render(req, "main/results/requirements.html", {'name': data[0], 'requirements': requirements})
+          return render(req, "results/requirements.html", {'name': data[0], 'requirements': requirements})
      elif name:
           requirements = API.getInformation(name)['requirements']
      
-          return render(req, "main/results/requirements.html", {'name': name, 'requirements': requirements})
+          return render(req, "results/requirements.html", {'name': name, 'requirements': requirements})
 
 def configuration(req):
-     data = ''
+     data = json.loads(req.COOKIES.get('data'))
      index = req.GET.get('index')
      name = req.GET.get('name')
 
      if index:
           index = int(index)
-          data = ''
-
-          with open("data.txt", "r") as file:
-               data = json.loads(file.read())["validation_table"][index]
+          data = data["validation_table"][index]
           
           configuration = API.getInformation(data[0])['configuration']
 
-          return render(req, "main/results/configuration.html", {'name': data[0], 'configuration': configuration})
+          return render(req, "results/configuration.html", {'name': data[0], 'configuration': configuration})
      elif name:
           configuration = API.getInformation(name)['configuration']
 
-          return render(req, "main/results/configuration.html", {'name': name, 'configuration': configuration})
+          return render(req, "results/configuration.html", {'name': name, 'configuration': configuration})
 
 def downloadCon(req):
-     data = ''
+     data = json.loads(req.COOKIES.get('data'))
      index = req.GET.get('index')
      name = req.GET.get('name')
      configs = req.GET.get('configs')
 
      if index:
           index = int(index)
-
-          with open("data.txt", "r") as file:
-               data = json.loads(file.read())["validation_table"][index]
+          data = data["validation_table"][index]
      
           paths = API.getConfigurationFiles(data[0], configs)
      elif name:     
@@ -282,24 +261,21 @@ def downloadCon(req):
      return response
 
 def download(req):
-     data = ''
+     data = json.loads(req.COOKIES.get('data'))
      index = req.GET.get('index')
      name = req.GET.get('name')
      paths = []
+     print(name)
 
-     if index:
+     if index != None:
           index = int(index)
 
-          with open("data.txt", "r") as file:
-               data = json.loads(file.read())["validation_table"][index]
-     
+          data = data["validation_table"][index]
           paths = API.getInformation(data[0])['download']
-          print("OOOOOOOOOOOOOOOOOOOOOO")
-          print(paths)
-     elif name:     
+     elif name != None:     
           paths = API.getInformation(name)['download']
 
-     with zipfile.ZipFile('main/static/controls.zip', 'w') as zip:
+     with zipfile.ZipFile('mySite/static/controls.zip', 'w') as zip:
           for path in paths:
                path = os.path.join(os.path.dirname(API_PATH.__file__), path)
                
@@ -308,7 +284,7 @@ def download(req):
 
      response = None
 
-     with open('main/static/controls.zip', 'rb') as zip_response:
+     with open('mySite/static/controls.zip', 'rb') as zip_response:
           response = HttpResponse(zip_response.read(), content_type='application/zip')
           response['Content-Disposition'] = f'attachment; filename=controls.zip'
 

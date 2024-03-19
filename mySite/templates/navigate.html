@@ -1,0 +1,32 @@
+{% extends 'base.html'%} {% block content %}
+<div id="navigate">
+    <div>
+        <div id="navigate_headers">
+            <button id="navigate_headers_0" {% if prompt_upper != 'Archetype' %}onclick="goToArchetype()" {% endif %}>Archetype</button>
+            <hr id="navigate_headers_0_rule"/>
+            <button id="navigate_headers_1" {% if prompt_upper != 'Target level' %}onclick="goToTarget()" {% endif %} {% if prompt_upper == 'Archetype' %}disabled{% endif %}>Target level</button>
+            <hr id="navigate_headers_1_rule"/>
+            <button id="navigate_headers_2" {% if prompt_upper != 'Strategy' %}disabled{% endif %}>Application</button>
+        </div>
+    </div>
+    
+    <div>
+        <div id="navigate_options">
+            <div id="navigate_options_prompt">
+                <h6>Select your {{prompt_lower}}</h6>
+                <span id="navigate_options_icon" class="material-symbols-outlined icon clickable" onclick="hideFilterOptions()">
+                    unfold_less
+                </span>
+            </div>
+            <div id="navigate_options_options">
+                {% for item in options %}
+                <button onclick="applyFilterOption('{{item}}')">{{item}}</button>
+                {% if not forloop.last %}
+                <hr />
+                {% endif %}
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

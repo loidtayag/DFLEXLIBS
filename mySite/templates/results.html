@@ -1,0 +1,113 @@
+{% extends 'base.html'%} {% block content %}
+<div id="results">
+    <div id="results_header">
+        <div id="results_header_search">
+            <h6>Model validation results</h6>
+            <form>
+                <input type="text" name="search" id="results_search" onchange="searchResults()" />
+                <!-- <span id="results_header_search_icon" class="material-symbols-outlined icon" type="button">
+                    search
+                </span> -->
+            </form>
+        </div>
+        <div id="results_header_filters">
+            <div class="results_header_filters">
+                <p>Validity</p>
+                <button class="material-symbols-outlined invisible icon" id="valid" onclick="filterResults('true')">
+                    health_and_safety
+                </button>
+                <button class="material-symbols-outlined invisible icon" id="invalid" onclick="filterResults('false')">
+                    dangerous
+                </button>
+            </div>
+            <div class="results_header_filters">
+                <p>Sort</p>
+                <button class="material-symbols-outlined invisible icon" id="ascending"
+                    onclick="orderResults('ascending')">
+                    expand_less
+                </button>
+                <button class="material-symbols-outlined invisible icon" id="descending"
+                    onclick="orderResults('descending')">
+                    expand_more
+                </button>
+            </div>
+            <div class="results_header_filters">
+                <p>Reset</p>
+                <button class="material-symbols-outlined icon" onclick="restartResults()">
+                    restart_alt
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <table id="results_table">
+        <tr>
+            <th>
+                Application
+            </th>
+            <th>Valid?</th>
+            <th>Menu</th>
+        </tr>
+        {% for item in data.validation_table %}
+        <tr id="results_option_{{item.0}}" class='results_option_{{item.0}} grey'>
+            <td>
+                {{item.0}}
+            </td>
+            <td>
+                {{item.1}}
+            </td>
+            <td class="results_parent">
+                <span style="padding-top: .4rem;" class="material-symbols-outlined icon clickable"
+                    onclick='menuAResult("{{forloop.counter0}}", "{{data.validation_table|length}}")'>
+                    menu
+                </span>
+                {% if item.1 %}
+                <div id="results_menu{{forloop.counter0}}" class="invisible results_child_large">
+                    <div class="results_menu">
+                        <button onclick='seeAppInfo("{{forloop.counter0}}")'>
+                            <div class="results_menu_option">
+                                <span class="material-symbols-outlined icon">
+                                    folder_open
+                                </span>
+                                <p>See app info</p>
+                            </div>
+                        </button>
+                        <button onclick="goToCon()">
+                            <div class="results_menu_option">
+                                <span class="material-symbols-outlined icon">
+                                    tune
+                                </span>
+                                <p>Configure app</p>
+                            </div>
+                        </button>
+                        <button onclick='download("{{forloop.counter0}}")'>
+                            <div class="results_menu_option">
+                                <span class="material-symbols-outlined icon">
+                                    download
+                                </span>
+                                <p>Download app</p>
+                            </div>
+                        </button>
+                    </div>
+                </div>
+                {% else %}
+                <div id="results_menu{{forloop.counter0}}" onclick='goToReport("{{forloop.counter0}}")'
+                    class="invisible results_child_small">
+                    <div class="results_menu">
+                        <button>
+                            <div class="results_menu_option">
+                                <span class="material-symbols-outlined icon">
+                                    draft
+                                </span>
+                                <p>See report</p>
+                            </div>
+                        </button>
+                    </div>
+                </div>
+                {% endif %}
+            </td>
+        </tr>
+        {% endfor %}
+    </table>
+</div>
+{% endblock %}

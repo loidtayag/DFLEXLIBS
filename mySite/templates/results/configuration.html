@@ -1,0 +1,15 @@
+{% extends 'base.html'%} {% block content %}
+<h5>Application: {{name}}</h5>
+<div class="resultss_box_wrapper">
+    <h6>Configure Application</h6>
+    <div class="resultss_box">
+        <pre id="report">
+            {{configuration | pprint}} 
+         </pre>
+
+        <button onclick="downloadCon()">
+            Download configuration file
+        </button>
+    </div>
+</div>
+{% endblock %}
