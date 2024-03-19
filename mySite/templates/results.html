@@ -11,7 +11,7 @@
             </form>
         </div>
         <div id="results_header_filters">
-            <div class="results_header_filters">
+            <div class="results_header_filters" id="came_from_filter">
                 <p>Validity</p>
                 <button class="material-symbols-outlined invisible icon" id="valid" onclick="filterResults('true')">
                     done
@@ -45,7 +45,7 @@
             <th>
                 Application
             </th>
-            <th>Valid?</th>
+            <th id="came_from_-1">Valid?</th>
             <th>Menu</th>
         </tr>
         {% for item in data.validation_table %}
@@ -53,7 +53,7 @@
             <td>
                 {{item.0}}
             </td>
-            <td>
+            <td id="came_from_{{forloop.counter0}}">
                 {{item.1}}
             </td>
             <td class="results_parent">

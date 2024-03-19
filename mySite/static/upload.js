@@ -11,6 +11,8 @@ document.addEventListener("DOMContentLoaded", () => {
         toHighlight = 1
         localStorage.setItem('header_on', toHighlight)
 
+        localStorage.setItem('came_from', 'search')
+
         window.location.href = '/results'
     }
     else if (url == "/navigate") {
@@ -40,6 +42,8 @@ document.addEventListener("DOMContentLoaded", () => {
         toHighlight = 3
         localStorage.setItem('header_on', toHighlight)
 
+        localStorage.setItem('came_from', 'validate')
+
         let upload_file_label = document.getElementById("upload_file_label")
         let upload_file = document.getElementById("upload_file")
 
@@ -68,6 +72,20 @@ document.addEventListener("DOMContentLoaded", () => {
         })
     }
     else if (url == "/results") {
+        cameFrom = localStorage.getItem('came_from')
+        
+        if (cameFrom == 'search') {
+            document.getElementById("base_headers_" + 1).classList.add('chosen')
+            document.getElementById("came_from_filter").classList.add('invisible')
+            document.getElementById("came_from_-1").classList.add('invisible')
+            
+            len = JSON.parse(localStorage.getItem('data'))['validation_table'].length
+            
+            for (let i = 0; i < len; i++) {
+                document.getElementById("came_from_" + i).classList.add('invisible')
+            }
+        }
+
         cookies = document.cookie.split(';')
         for (cookie of cookies) {
             cookie = cookie.split('=')
