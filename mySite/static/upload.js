@@ -111,40 +111,34 @@ document.addEventListener("DOMContentLoaded", () => {
             invalid.classList.add('invisible')
         }
 
-        // els = document.querySelectorAll('[class^="results_option_"]');
-        // data = JSON.parse(localStorage.getItem("data"))["validation_table"]
-        // i = 0
+        els = document.querySelectorAll('[class^="results_option_"]');
+        data = JSON.parse(localStorage.getItem("data"))["validation_table"]
+        i = 0
 
-        // if (param == 'true') {
-        //     els.forEach(function(el) {
-        //         classes = [...els[i].classList]
-        //         classes.pop()
-        //         classes = classes.join(' ')
-        //         console.log(classes);
-        //         el = document.getElementById(classes)
-        //         console.log(el)
-        //         if (data[i][1] == false) {
-        //             console.log("A");
-        //             el.style.display = 'none !important';
-        //         } else {
-        //             console.log("B");
-        //             el.style.display = 'none !important';
-        //         }
-        //         i += 1
-        //     });
-        // }
-        // else if (param == 'false') {
-        //     els.forEach(el => {
-        //         const className = el.className;
-        //         const suffix = className.slice("results_option_".length);
-        //         if (data[i][1] == true) {
-        //             el.style.display = 'none';
-        //         } else {
-        //             el.style.display = '';
-        //         }
-        //         i += 1
-        //     });
-        // }
+        if (param == 'true') {
+            els.forEach(function(el) {
+                const className = el.className;
+                const suffix = className.slice("results_option_".length);
+                if (data[i][1] == false) {
+                    el.style.display = 'none';
+                } else {
+                    el.style.display = '';
+                }
+                i += 1
+            });
+        }
+        else if (param == 'false') {
+            els.forEach(el => {
+                const className = el.className;
+                const suffix = className.slice("results_option_".length);
+                if (data[i][1] == true) {
+                    el.style.display = 'none';
+                } else {
+                    el.style.display = '';
+                }
+                i += 1
+            });
+        }
 
         let value = localStorage.getItem("hackSearch")
         if (value != null) {
