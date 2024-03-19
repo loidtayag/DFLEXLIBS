@@ -8,6 +8,7 @@ from .DFLEXLIBS import controls as API_PATH
 from .DFLEXLIBS.controls.demo import API
 import zipfile
 import os
+import io
 
 # Create your views here.
 
@@ -133,13 +134,12 @@ def info(req):
 
      desc = API.getInformation(data[0])['description']
      requirements = API.getInformation(data[0])['requirements']
-
-     flow_package_path = API.getInformation(data[0])['flow_chart']
+     # You're going to have to duplicate the controls structure for the images into the static folder
+     # Please make a script
+     flow_path = API.getInformation(data[0])['flow_chart']
      perf_package_path = API.getInformation(data[0])['performance']
-     flow_path = os.path.join(os.path.dirname(API_PATH.__file__), flow_package_path)
-     perf_path = os.path.join(os.path.dirname(API_PATH.__file__), perf_package_path)
 
-     return render(req, "results/info.html", {'name': data[0], 'desc': desc, 'flow': os.path.basename(flow_path), 'perf': os.path.basename(perf_path), 'req': requirements})
+     return render(req, "results/info.html", {'name': data[0], 'desc': desc, 'flow': flow_path, 'perf': os.path.basename(perf_path), 'req': requirements})
 
 def description(req):
      data = json.loads(req.COOKIES.get('data'))
@@ -265,7 +265,6 @@ def download(req):
      index = req.GET.get('index')
      name = req.GET.get('name')
      paths = []
-     print(name)
 
      if index != None:
           index = int(index)
@@ -275,17 +274,17 @@ def download(req):
      elif name != None:     
           paths = API.getInformation(name)['download']
 
-     with zipfile.ZipFile('mySite/static/controls.zip', 'w') as zip:
+     myZip = io.BytesIO()
+
+     with zipfile.ZipFile(myZip, 'w') as zip:
           for path in paths:
                path = os.path.join(os.path.dirname(API_PATH.__file__), path)
                
                with open(path, 'r') as file:
                     zip.writestr(os.path.basename(path), file.read())
 
-     response = None
-
-     with open('mySite/static/controls.zip', 'rb') as zip_response:
-          response = HttpResponse(zip_response.read(), content_type='application/zip')
-          response['Content-Disposition'] = f'attachment; filename=controls.zip'
+     myZip.seek(0)
+     response = HttpResponse(myZip.read(), content_type='application/zip')
+     response['Content-Disposition'] = f'attachment; filename=controls.zip'
 
      return response
