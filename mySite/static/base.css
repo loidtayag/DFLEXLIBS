@@ -310,6 +310,10 @@ body {
     bottom: -2rem;
 }
 
+.results_child_come_from_search {
+    left: 17rem !important;
+}
+
 .results_menu {
     display: flex;
     flex-direction: column;

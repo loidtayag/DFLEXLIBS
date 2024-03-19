@@ -83,6 +83,7 @@ document.addEventListener("DOMContentLoaded", () => {
             
             for (let i = 0; i < len; i++) {
                 document.getElementById("came_from_" + i).classList.add('invisible')
+                document.getElementById("results_menu" + i).classList.add('results_child_come_from_search')
             }
         }
 
@@ -381,13 +382,17 @@ function goToCon() {
     const urlParams = new URLSearchParams(window.location.search);
     const index = urlParams.get('index')
     const name = urlParams.get('name')
-
+    
     if (index) {
         window.location = '/results/info/configuration?index=' + index
     }
     else if (name) {
         window.location = '/results/info/configuration?name=' + name
     }
+}
+
+function goToConn(index) {
+    window.location = '/results/info/configuration?index=' + index
 }
 
 function downloadCon() {
