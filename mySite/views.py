@@ -137,9 +137,9 @@ def info(req):
      # You're going to have to duplicate the controls structure for the images into the static folder
      # Please make a script
      flow_path = API.getInformation(data[0])['flow_chart']
-     perf_package_path = API.getInformation(data[0])['performance']
+     perf_path = API.getInformation(data[0])['performance']
 
-     return render(req, "results/info.html", {'name': data[0], 'desc': desc, 'flow': flow_path, 'perf': os.path.basename(perf_path), 'req': requirements})
+     return render(req, "results/info.html", {'name': data[0], 'desc': desc, 'flow': flow_path, 'perf': perf_path, 'req': requirements})
 
 def description(req):
      data = json.loads(req.COOKIES.get('data'))
@@ -167,15 +167,13 @@ def flow(req):
           index = int(index)
           data = json.loads(req.COOKIES.get('data'))["validation_table"][index]
           
-          package_path = API.getInformation(data[0])['flow_chart']
-          path = os.path.join(os.path.dirname(API_PATH.__file__), package_path)
+          path = API.getInformation(data[0])['flow_chart']
 
-          return render(req, "results/flow.html", {'name': data[0], 'path': os.path.basename(path)})
+          return render(req, "results/flow.html", {'name': data[0], 'path': path})
      elif name:
-          package_path = API.getInformation(name)['flow_chart']
-          path = os.path.join(os.path.dirname(API_PATH.__file__), package_path)
+          path = API.getInformation(name)['flow_chart']
 
-          return render(req, "results/flow.html", {'name': name, 'path': os.path.basename(path)})
+          return render(req, "results/flow.html", {'name': name, 'path': path})
 
 def performance(req):
      data = json.loads(req.COOKIES.get('data'))
@@ -186,15 +184,13 @@ def performance(req):
           index = int(index)
           data = data["validation_table"][index]
           
-          package_path = API.getInformation(data[0])['performance']
-          path = os.path.join(os.path.dirname(API_PATH.__file__), package_path)
+          path = API.getInformation(data[0])['performance']
 
-          return render(req, "results/performance.html", {'name': data[0], 'path': os.path.basename(path)})
+          return render(req, "results/performance.html", {'name': data[0], 'path': path})
      elif name:
-          package_path = API.getInformation(name)['performance']
-          path = os.path.join(os.path.dirname(API_PATH.__file__), package_path)
+          path = API.getInformation(name)['performance']
      
-          return render(req, "results/performance.html", {'name': name, 'path': os.path.basename(path)})
+          return render(req, "results/performance.html", {'name': name, 'path': path})
 
 def requirements(req):
      data = json.loads(req.COOKIES.get('data'))
