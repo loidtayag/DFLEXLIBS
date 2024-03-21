@@ -6,31 +6,31 @@
 <div id="info">
     <button onclick="goToDesc()" class="clickable grey_box">
         <h6>Application description</h6>
-        <p>{{desc}}</p>
+        <pre class="overflow">{{desc}}</pre>
     </button>
-    <div onclick="goToFlow()" class="clickable grey_box">
+    <button onclick="goToFlow()" class="clickable grey_box">
         <h6>Application flow chart</h6>
         <img style="max-width: 8rem;" src="{% static flow%}" />
-    </div>
-    <div onclick="goToPerf()" class="clickable grey_box">
+    </button>
+    <button onclick="goToPerf()" class="clickable grey_box">
         <h6>Application performance</h6>
         <img style="max-width: 8rem;" src="{% static perf%}" />
-    </div>
-    <div onclick="goToReq()" class="clickable grey_box">
+    </button>
+    <button onclick="goToReq()" class="clickable grey_box">
         <h6>Data requirements</h6>
-        <p>{{req}}</p>
-    </div>
-    <div onclick="goToCon()" class="clickable grey_box">
+        <pre class="overflow">{{req}}</pre>
+    </button>
+    <button onclick="goToCon()" class="clickable grey_box">
         <h6>Configure application</h6>
         <span class="material-symbols-outlined">
             tune
         </span>
-    </div>
-    <div onclick='download("{{name}}")' class="clickable grey_box">
+    </button>
+    <button onclick='download("{{name}}")' class="clickable grey_box">
         <h6>Download application</h6>
         <span class="material-symbols-outlined">
             download
         </span>
-    </div>
+    </button>
 </div>
 {% endblock %}

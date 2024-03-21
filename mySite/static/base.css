@@ -67,6 +67,17 @@ a {
     background-color: #dee0e3;
 }
 
+pre {
+    white-space: pre-line;
+    font-family: inherit !important;
+    font-size: inherit !important;
+}
+
+.overflow {
+    overflow: hidden;
+    max-width: 100%;
+}
+
 /* base */
 body {
     padding: 1rem;
