@@ -107,24 +107,60 @@ apps = {
                 "slider",
                 "myNumber",
                 {
-                    "min": 2,
-                    "max": 5,
+                    "min": 0,
+                    "max": 100,
                 }
             ],   
             [
                 "number",
                 "myNumber",
                 {
-                    "min": 2,
-                    "max": 5,
+                    "min": 1,
+                    "max": 10,
+                }
+            ],   
+            [
+                "text",
+                "myOtherNumberShouldBe4",
+                {
+                    "dependsOn": "myNumber",
+                    "dependsOnValue": 4
+                }
+            ],      
+            [
+                "number",
+                "myOtherNumberShouldBeAnything",
+                {
+                    "dependsOn": "myNumber",
+                    # If 'dependsOnValue' doesn't exist but 'dependsOn' does, that would mean
+                    # as long as 'myOtherNumber' has a value, show this as well
                 }
             ],           
+            [
+                "text",
+                "myNestedText"
+            ],
+            [
+                "multiple_choice",
+                "colors",
+                [
+                    "red",
+                    "blue",
+                    "orange"
+                ]
+            ]
         ],
         "configuration_file": {
-            "sparql_query": None,
+            "sparql_query": "default value",
             "myNumber:": None,
             "graph_path": None,
-            "myOtherNumber": None
+            "myOtherNumber": 4,
+            "myOtherNumberShouldBe4": None,
+            "myOtherNumberShouldBeAnything": None,
+            "nested": {
+                "myNestedText": None,
+                "colors": []
+            }
         }
     }, 
     "shed os_zone_temp_adjs_rat": {
@@ -310,11 +346,18 @@ def getFilters():
 def getInformation(control_name):
     return apps[control_name]
 
+import copy
+
 # For "results/configuration"
 def getConfigurationFiles(control_name, configs):
-    apps[control_name]["configuration_file"]['sparql_query'] = configs[1]
-    apps[control_name]["configuration_file"]['myNumber'] = configs[2]
-    apps[control_name]["configuration_file"]['graph_path'] = configs[0]
-    apps[control_name]["configuration_file"]['myOtherNumber'] = configs[3]
+    appsDup = copy.deepcopy(apps)
+    appsDup[control_name]["configuration_file"]['sparql_query'] = configs[1]
+    appsDup[control_name]["configuration_file"]['myNumber'] = configs[2]
+    appsDup[control_name]["configuration_file"]['graph_path'] = configs[0]
+    appsDup[control_name]["configuration_file"]['myOtherNumber'] = configs[3]
+    appsDup[control_name]["configuration_file"]['myOtherNumberShouldBe4'] = configs[4]
+    appsDup[control_name]["configuration_file"]['myOtherNumberShouldBeAnything'] = configs[5]
+    appsDup[control_name]["configuration_file"]["nested"]['myNestedText'] = configs[6]
+    appsDup[control_name]["configuration_file"]["nested"]['colors'] = configs[7]
 
-    return apps[control_name]["configuration_file"]
+    return appsDup[control_name]["configuration_file"]
