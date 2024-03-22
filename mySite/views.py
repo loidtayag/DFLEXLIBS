@@ -9,6 +9,7 @@ from . import API
 import zipfile
 import os
 import io
+import shutil
 
 # Create your views here.
 
@@ -270,12 +271,27 @@ def download(req):
 
      myZip = io.BytesIO()
 
+     def getImages(srcDir):
+          for path in os.listdir(srcDir):
+               path = os.path.join(srcDir, path)
+               print(path)
+
+               if os.path.isdir(path):
+                    getImages(path)
+               else:
+                    if path.lower().endswith('.py'): 
+                         with open(path, 'r') as file:
+                              zip.writestr(os.path.basename(path), file.read())
+
      with zipfile.ZipFile(myZip, 'w') as zip:
           for path in paths:
                path = os.path.join(os.path.dirname(os.path.dirname(API_PATH.__file__)), path)
-               
-               with open(path, 'r') as file:
-                    zip.writestr(os.path.basename(path), file.read())
+               print(path)
+               if os.path.isdir(path):
+                    getImages(path)
+               else:
+                    with open(path, 'r') as file:
+                         zip.writestr(os.path.basename(path), file.read())
 
      myZip.seek(0)
      response = HttpResponse(myZip.read(), content_type='application/zip')

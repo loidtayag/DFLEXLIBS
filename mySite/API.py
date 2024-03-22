@@ -3,7 +3,7 @@ download = ['controls/demo/myControl.py']
 
 download_shed_zone_temp_adjs = ['controls/hvac/sequences/python/strategies/stra_zone_temp_shed_price.py', 
                                 'controls/hvac/sequences/python/functions/fu_ashrae_TSet_adjust.py',
-                                'controls/controls/hvac/sequences/python/functions/fu_runaway_condition.py',
+                                'controls/hvac/sequences/python/functions/fu_runaway_condition.py',
                                 'controls/hvac/sequences/python/functions/fu_runaway_TsetCooZon.py',
                                 'controls/hvac/sequences/python/functions/fu_runaway_TsetHeaZon.py',
                                 'controls/hvac/sequences/python/functions/fu_shed_price_event.py',
@@ -92,22 +92,40 @@ apps = {
         "download": download_shed_zone_temp_adjs,
         "configuration": [
             [
-                "text",
-                "my_title_1"
+                "choice",
+                "graph_path",
+                [
+                    "apples",
+                    "oranges"
+                ]
             ],
+            [
+                "text",
+                "sparql_query"
+            ],
+            [
+                "slider",
+                "myNumber",
+                {
+                    "min": 2,
+                    "max": 5,
+                }
+            ],   
             [
                 "number",
-                "my_title_2"
-            ],
-            [
-                "choice",
-                "my_title_3",
-                [
-                    "my_choice_1",
-                    "my_choice_2"
-                ]
-            ]            
-        ]
+                "myNumber",
+                {
+                    "min": 2,
+                    "max": 5,
+                }
+            ],           
+        ],
+        "configuration_file": {
+            "sparql_query": None,
+            "myNumber:": None,
+            "graph_path": None,
+            "myOtherNumber": None
+        }
     }, 
     "shed os_zone_temp_adjs_rat": {
         "description": "My description",
@@ -209,7 +227,6 @@ apps = {
             ]            
         ]
     },
-    
     "shed os_plant_chiller_water_temp_reset": {
         "description": "My description",
         "flow_chart": image,
@@ -294,11 +311,10 @@ def getInformation(control_name):
     return apps[control_name]
 
 # For "results/configuration"
-# The configs would be just a list or a dictionary
-# For example ['my_value_for_my_title_1', 125, 'my_value_for_my_title_3']
 def getConfigurationFiles(control_name, configs):
-    paths = [download[0]]
+    apps[control_name]["configuration_file"]['sparql_query'] = configs[1]
+    apps[control_name]["configuration_file"]['myNumber'] = configs[2]
+    apps[control_name]["configuration_file"]['graph_path'] = configs[0]
+    apps[control_name]["configuration_file"]['myOtherNumber'] = configs[3]
 
-    # Some logic to get the corresponding config file paths
-    
-    return paths
+    return apps[control_name]["configuration_file"]
