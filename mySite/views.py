@@ -122,13 +122,13 @@ def report(req):
      return render(req, "results/report.html", {'name': data[0], 'reasons': reasons})
     
 def info(req):
-     data = json.loads(req.COOKIES.get('data'))
+     data = None
      index = req.GET.get('index', '')
      name = req.GET.get('name', '')
 
      if index:
           index = int(index)
-          data = data["validation_table"][index]
+          data = json.loads(req.COOKIES.get('data'))["validation_table"][index]
      elif name:
           data = [name]
 
