@@ -72,27 +72,27 @@ document.addEventListener("DOMContentLoaded", () => {
         })
     }
     else if (url == "/results") {
-        cameFrom = localStorage.getItem('came_from')
-        
-        if (cameFrom == 'search') {
-            document.getElementById("base_headers_" + 1).classList.add('chosen')
-            document.getElementById("came_from_filter").classList.add('invisible')
-            document.getElementById("came_from_-1").classList.add('invisible')
-            
-            len = JSON.parse(localStorage.getItem('data'))['validation_table'].length
-            
-            for (let i = 0; i < len; i++) {
-                document.getElementById("came_from_" + i).classList.add('invisible')
-                document.getElementById("results_menu" + i).classList.add('results_child_come_from_search')
-            }
-        }
-
         cookies = document.cookie.split(';')
         for (cookie of cookies) {
             cookie = cookie.split('=')
             if (cookie[0].replace(" ", "") == 'data') {
                 data = cookie[1].substring(1, cookie[1].length - 1).replaceAll('\\054', ',').replaceAll('\\', '')
                 localStorage.setItem('data', data)
+            }
+        }
+        
+        cameFrom = localStorage.getItem('came_from')
+        
+        if (cameFrom == 'search') {
+            document.getElementById("base_headers_" + 1).classList.add('chosen')
+            document.getElementById("came_from_filter").classList.add('invisible')
+            document.getElementById("came_from_-1").classList.add('invisible')
+
+            len = JSON.parse(localStorage.getItem('data'))['validation_table'].length
+            
+            for (let i = 0; i < len; i++) {
+                document.getElementById("came_from_" + i).classList.add('invisible')
+                document.getElementById("results_menu" + i).classList.add('results_child_come_from_search')
             }
         }
 
