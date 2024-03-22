@@ -272,7 +272,7 @@ def download(req):
 
      with zipfile.ZipFile(myZip, 'w') as zip:
           for path in paths:
-               path = os.path.join(os.path.dirname(API_PATH.__file__), path)
+               path = os.path.join(os.path.dirname(os.path.dirname(API_PATH.__file__)), path)
                
                with open(path, 'r') as file:
                     zip.writestr(os.path.basename(path), file.read())
