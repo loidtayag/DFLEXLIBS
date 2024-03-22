@@ -5,7 +5,7 @@ from rdflib import Graph
 from .DFLEXLIBS.validation.buildingMOTIF_interface import results
 import json
 from .DFLEXLIBS import controls as API_PATH
-from .DFLEXLIBS.controls.demo import API
+from . import API
 import zipfile
 import os
 import io
@@ -134,8 +134,6 @@ def info(req):
 
      desc = API.getInformation(data[0])['description']
      requirements = API.getInformation(data[0])['requirements']
-     # You're going to have to duplicate the controls structure for the images into the static folder
-     # Please make a script
      flow_path = API.getInformation(data[0])['flow_chart']
      perf_path = API.getInformation(data[0])['performance']
 

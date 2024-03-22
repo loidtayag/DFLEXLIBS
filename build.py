@@ -16,4 +16,4 @@ def getImages(srcDir, desDir):
         elif os.path.isdir(filePath):  
             getImages(filePath, desPath)
 
-getImages('mySite\DFLEXLIBS\controls', 'mySite/static/')
+getImages('mySite\DFLEXLIBS', 'mySite/static/')

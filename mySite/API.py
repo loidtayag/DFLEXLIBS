@@ -1,18 +1,18 @@
-image = 'demo/myImage.png'
-download = ['demo/myControl.py']
+image = 'controls/demo/myImage.png'
+download = ['controls/demo/myControl.py']
 
-download_shed_zone_temp_adjs = ['hvac/sequences/python/strategies/stra_zone_temp_shed_price.py', 
-                                'hvac/sequences/python/functions/fu_ashrae_TSet_adjust.py',
-                                'hvac/sequences/python/functions/fu_runaway_condition.py',
-                                'hvac/sequences/python/functions/fu_runaway_TsetCooZon.py',
-                                'hvac/sequences/python/functions/fu_runaway_TsetHeaZon.py',
-                                'hvac/sequences/python/functions/fu_shed_price_event.py',
-                                'hvac/sequences/python/functions/fu_shed_TsetCooZon.py',
-                                'hvac/sequences/python/functions/fu_shed_TsetHeaZon.py',
+download_shed_zone_temp_adjs = ['controls/hvac/sequences/python/strategies/stra_zone_temp_shed_price.py', 
+                                'controls/hvac/sequences/python/functions/fu_ashrae_TSet_adjust.py',
+                                'controls/controls/hvac/sequences/python/functions/fu_runaway_condition.py',
+                                'controls/hvac/sequences/python/functions/fu_runaway_TsetCooZon.py',
+                                'controls/hvac/sequences/python/functions/fu_runaway_TsetHeaZon.py',
+                                'controls/hvac/sequences/python/functions/fu_shed_price_event.py',
+                                'controls/hvac/sequences/python/functions/fu_shed_TsetCooZon.py',
+                                'controls/hvac/sequences/python/functions/fu_shed_TsetHeaZon.py',
 ]
 
-chart_shed_zone_temp_adjs = 'demo/chart_shed_zone_temp_adjs.png'
-performance_shed_zone_temp_adjs = 'demo/performance_shed_zone_temp_adjs.png'
+chart_shed_zone_temp_adjs = 'controls/demo/chart_shed_zone_temp_adjs.png'
+performance_shed_zone_temp_adjs = 'controls/demo/performance_shed_zone_temp_adjs.png'
 
 
 apps = {
@@ -32,8 +32,63 @@ apps = {
         
         "flow_chart": chart_shed_zone_temp_adjs,
         "performance": performance_shed_zone_temp_adjs,
-        "requirements": "hellooooooooooooooooooooooooooooooooooooo\n"
-                        "world",
+        "requirements": "@prefix brick: <https://brickschema.org/schema/Brick#> .\n"
+                    "@prefix owl: <http://www.w3.org/2002/07/owl#> .\n"
+                    "@prefix sh: <http://www.w3.org/ns/shacl#> ."
+                    "@prefix xsd: <http://www.w3.org/2001/XMLSchema#> ."
+                    "@prefix ref: <https://brickschema.org/schema/Brick/ref#> ."
+                    "@prefix constraint: <https://nrel.gov/BuildingMOTIF/constraints#> ."
+                    "@prefix : <urn:shed_zone_temp_adjs/> ."
+
+                    ": a owl:Ontology ;"
+                    "    owl:imports <https://brickschema.org/schema/1.3/Brick> ."
+                                
+                    ":zone a sh:NodeShape, owl:Class ;"
+                    "    sh:targetClass brick:Zone ;"
+                    "    sh:property [ sh:path brick:hasPoint ;"
+                    "            sh:qualifiedValueShape [sh:targetClass brick:Max_Air_Temperature_Setpoint];"
+                    "            sh:qualifiedMinCount 1 ] ,"
+                    "    [ sh:path brick:hasPoint ;"
+                    "            sh:qualifiedValueShape [sh:targetClass brick:Min_Air_Temperature_Setpoint];"
+                    "            sh:qualifiedMinCount 1  ] ,"
+                    "    [ sh:path brick:hasPoint ;"
+                    "            sh:qualifiedValueShape [sh:targetClass brick:Zone_Air_Temperature_Sensor];"
+                    "            sh:qualifiedMinCount 1 ] ,"
+                    "    [ sh:path brick:hasPoint ;"
+                    "            sh:qualifiedValueShape [sh:targetClass brick:Occupancy_Sensor];"
+                    "            sh:qualifiedMinCount 1 ] ;            "
+                    "    sh:property ["
+                    "        sh:path brick:hasPoint ;"
+                    "        sh:qualifiedValueShape [ sh:or ("
+                    "            [sh:targetClass brick:Zone_Air_Cooling_Temperature_Setpoint;]"
+                    "            [sh:targetClass brick:Zone_Air_Heating_Temperature_Setpoint;] "
+                    "            [sh:targetClass brick:Zone_Air_Temperature_Setpoint;] "
+                    "        )] ;"
+                    "        sh:qualifiedMinCount 1 ;"
+                    "    ] ;"
+                    "."
+
+                    ":timeseries-identifier a sh:NodeShape ;"
+                    "    sh:targetClass brick:Max_Air_Temperature_Setpoint,"
+                    "                brick:Min_Air_Temperature_Setpoint,"
+                    "                brick:Zone_Air_Temperature_Sensor,"
+                    "                brick:Zone_Air_Cooling_Temperature_Setpoint,"
+                    "                brick:Zone_Air_Heating_Temperature_Setpoint,"
+                    "                brick:Zone_Air_Temperature_Setpoint,"
+                    "                brick:Occupancy_Sensor;"
+
+                    "    sh:property ["
+                    "        sh:path ref:hasExternalReference ; "
+                    "        sh:minCount 1;"
+                    "        sh:nodeKind sh:BlankNode ;"
+                    "       sh:property ["
+                    "            sh:path ref:hasTimeseriesId ; "
+                    "            sh:minCount 1;"
+                    "            sh:maxCount 1;"
+                    "            sh:datatype xsd:string ;"
+                    "        ] ;	"
+                    "   ] ;"
+                    ".",
         "download": download_shed_zone_temp_adjs,
         "configuration": [
             [
