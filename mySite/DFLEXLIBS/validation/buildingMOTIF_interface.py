@@ -150,6 +150,8 @@ class ValidationInterface:
         
             # Add reasons for each diff if available
             for diff in validation_result.diffset:
+                # this also works but isn't showing an elegant sentence
+                # non_suitable_reason.append([key, str(diff.reason)]) 
                 non_suitable_reason.append([key, diff.reason()]) 
 
             # Append the row to the overall table data

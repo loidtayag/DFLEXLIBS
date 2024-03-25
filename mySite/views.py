@@ -1,5 +1,6 @@
+from celery.result import AsyncResult
 from django.shortcuts import render
-from django.http import HttpResponse
+from django.http import HttpResponse, JsonResponse
 from .forms import Upload
 from rdflib import Graph
 from .DFLEXLIBS.validation.buildingMOTIF_interface import results
@@ -9,9 +10,16 @@ from . import API
 import zipfile
 import os
 import io
-import shutil
+from celery import shared_task
+import secrets
+import string
+from django.core.cache import cache
+import time
 
-# Create your views here.
+# After this, check what happens if TTL file is invalid, does it crash?
+@shared_task
+def myTask(uploaded):
+     return results(uploaded)
 
 def base(request):
      return render(request, "base.html", {})
@@ -59,9 +67,46 @@ def navigate(req):
      
      return render(req, "navigate.html", {'options': options, 'prompt_upper': prompt_upper, 'prompt_lower': prompt_lower})
 
+# celery -A myApp worker --pool=solo -l info
+def checkValidate(req): 
+     try:
+          id = req.GET.get('id')
+          token = req.GET.get('token')
+          task = AsyncResult(id)
+          tokens = list(cache.get('tokens'))
+
+          if tokens[0] == token:
+               cache.set('lastCheck', time.time())
+               cache.delete('alreadyDeleted')
+
+               if task.ready():
+                    res = JsonResponse(task.get(), safe = False)
+                    res.set_cookie('data', task.get())
+                    tokens.pop(0)
+                    cache.set('tokens', tokens)
+                    return res
+               else:
+                    return JsonResponse({"validation_table": "Task is still running..."})
+          elif token in tokens:
+               lastCheck = cache.get('lastCheck') 
+               alreadDeleted = cache.get('alreadyDeleted')
+               if alreadDeleted == None and time.time() - float(lastCheck) > 5:
+                    tokens.pop(0)
+                    cache.set('tokens', tokens)
+                    cache.set('alreadyDeleted', '')
+
+               return JsonResponse({"validation_table": "In queue...", "place": tokens.index(token)})
+     except Exception as _:
+          return JsonResponse({"validation_table": "Error..."})
+
+
 def validate(req):
      data = "Upload graph first" 
      uploaded = "Upload graph first" 
+
+     def generateToken(len = 20):
+          symbols = string.ascii_letters + string.digits
+          return ''.join(secrets.choice(symbols) for _ in range(len))
           
      if req.method == "POST":
           form = Upload(req.POST, req.FILES)
@@ -70,18 +115,32 @@ def validate(req):
                graph = Graph()
                graph.parse(data=uploaded)
                uploaded = graph.serialize()
-               data = results(uploaded)      
+               
+               id = myTask.delay(uploaded).id
+               data = str(id)
+               token = generateToken()
+               data += '&' + token
+               
+               tokens = cache.get('tokens') 
+               if tokens == None:
+                    tokens = []
+               else:
+                    tokens = list(tokens)
 
-               return HttpResponse(data, content_type='text')
+               tokens.append(token)
+               cache.set('tokens', tokens)
+               
+               if tokens[0] == token:
+                    cache.set('lastCheck', time.time())
           else:
                data = 'File data is invalid'
+          return HttpResponse(data, content_type='text')
 
      return render(req, "validate.html", {"form": Upload()})
 
 def resultss(req):
      filter = req.GET.get('order')
      data = json.loads(req.COOKIES.get('data'))
-     valid = req.GET.get('valid')
 
      temp = {
           "validation_table": [],

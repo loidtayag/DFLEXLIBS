@@ -55,19 +55,20 @@ document.addEventListener("DOMContentLoaded", () => {
 
         document.getElementById("upload_form").addEventListener('submit', function (e) {
             e.preventDefault()
-            document.getElementById('upload_loading').classList.remove('invisible')
+            document.getElementById('upload_prequeue').classList.remove('invisible')
+            document.getElementById('upload_results').classList.add('invisible')
+            document.getElementById('upload_error').classList.add('invisible')
             var formData = new FormData(this);
 
             fetch(this.action, {
                 method: this.method,
                 body: formData,
             }).then(res => {
-                return res.json()
-            }).then(data => {
-                document.cookie = "data=" + JSON.stringify(data) + "; path=/";
-                document.getElementById('upload_results').classList.remove('invisible')
-            }).finally(() => {
-                document.getElementById('upload_loading').classList.add('invisible')
+                return res.text()
+            }).then(text => {
+                arr = text.split('&')
+
+                verify(arr[0], arr[1])
             });
         })
     }
@@ -94,6 +95,10 @@ document.addEventListener("DOMContentLoaded", () => {
                 document.getElementById("came_from_" + i).classList.add('invisible')
                 document.getElementById("results_menu" + i).classList.add('results_child_come_from_search')
             }
+        }
+
+        if (cameFrom = 'validate') {
+            document.getElementById('results_header_header').innerText = 'Model validation results'
         }
 
         let param = new URLSearchParams(window.location.search).get('order')
@@ -181,6 +186,46 @@ document.addEventListener("DOMContentLoaded", () => {
         }
     }
 })
+
+function verify(id, token) {
+    fetch('checkValidate?id=' + id + '&token=' + token).then(res => {
+        return res.json()
+    }).then(data => {
+        if (data['validation_table'] == 'Error...') {
+            document.getElementById('upload_error').classList.remove('invisible')
+            document.getElementById('upload_prequeue').classList.add('invisible')
+            document.getElementById('upload_queue').classList.add('invisible')
+            document.getElementById('upload_loading').classList.add('invisible')
+        }
+        else if (data['validation_table'] == 'In queue...') {
+            document.getElementById('upload_error').classList.add('invisible')
+            document.getElementById('upload_prequeue').classList.add('invisible')
+            document.getElementById('upload_queue').classList.remove('invisible')
+            document.getElementById('upload_queue').innerText = 'In queue position ' + data['place'] + '...'
+            
+            lastTime = new Date()
+            while (new Date() - lastTime < 2000) {}
+            
+            verify(id, token)
+        }
+        else if (data['validation_table'] == 'Task is still running...') {
+            document.getElementById('upload_error').classList.add('invisible')
+            document.getElementById('upload_prequeue').classList.add('invisible')
+            document.getElementById('upload_queue').classList.add('invisible')
+            document.getElementById('upload_loading').classList.remove('invisible')
+
+            lastTime = new Date()
+            while (new Date() - lastTime < 2000) {}
+
+            verify(id, token)
+        }
+        else {
+            document.getElementById('upload_error').classList.add('invisible')
+            document.getElementById('upload_loading').classList.add('invisible')
+            document.getElementById('upload_results').classList.remove('invisible')
+        }
+    })
+}
 
 /* navigate */
 function goToArchetype() {

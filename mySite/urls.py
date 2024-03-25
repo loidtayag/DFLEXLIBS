@@ -5,6 +5,7 @@ urlpatterns = [
     path("", views.base, name="base"),
     path("search", views.search, name="search"),
     path("navigate", views.navigate, name="navigate"),
+    path("checkValidate", views.checkValidate, name="checkValidate"),
     path("validate", views.validate, name="validate"),
     path("results", views.resultss, name="results"),
     path("results/report", views.report, name="report"),
