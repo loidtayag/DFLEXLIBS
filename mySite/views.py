@@ -182,13 +182,13 @@ def report(req):
      return render(req, "results/report.html", {'name': data[0], 'reasons': reasons})
     
 def info(req):
-     data = None
      index = req.GET.get('index', '')
      name = req.GET.get('name', '')
 
      if index:
+          data = json.loads(req.COOKIES.get('data'))
           index = int(index)
-          data = json.loads(req.COOKIES.get('data'))["validation_table"][index]
+          data = data["validation_table"][index]
      elif name:
           data = [name]
 
@@ -200,11 +200,11 @@ def info(req):
      return render(req, "results/info.html", {'name': data[0], 'desc': desc, 'flow': flow_path, 'perf': perf_path, 'req': requirements})
 
 def description(req):
-     data = json.loads(req.COOKIES.get('data'))
      index = req.GET.get('index')
      name = req.GET.get('name')
 
      if index:
+          data = json.loads(req.COOKIES.get('data'))
           index = int(index)
           data = data["validation_table"][index]
           
@@ -217,13 +217,13 @@ def description(req):
           return render(req, "results/desc.html", {'name': name, 'desc': description})
 
 def flow(req):
-     data = json.loads(req.COOKIES.get('data'))
      index = req.GET.get('index')
      name = req.GET.get('name')
 
      if index:
+          data = json.loads(req.COOKIES.get('data'))
           index = int(index)
-          data = json.loads(req.COOKIES.get('data'))["validation_table"][index]
+          data = data["validation_table"][index]
           
           path = API.getInformation(data[0])['flow_chart']
 
@@ -234,11 +234,11 @@ def flow(req):
           return render(req, "results/flow.html", {'name': name, 'path': path})
 
 def performance(req):
-     data = json.loads(req.COOKIES.get('data'))
      index = req.GET.get('index')
      name = req.GET.get('name')
 
      if index:
+          data = json.loads(req.COOKIES.get('data'))
           index = int(index)
           data = data["validation_table"][index]
           
@@ -251,11 +251,11 @@ def performance(req):
           return render(req, "results/performance.html", {'name': name, 'path': path})
 
 def requirements(req):
-     data = json.loads(req.COOKIES.get('data'))
      index = req.GET.get('index')
      name = req.GET.get('name')
 
      if index:
+          data = json.loads(req.COOKIES.get('data'))
           index = int(index)
           data = data["validation_table"][index]
           
@@ -268,11 +268,11 @@ def requirements(req):
           return render(req, "results/requirements.html", {'name': name, 'requirements': requirements})
 
 def configuration(req):
-     data = json.loads(req.COOKIES.get('data'))
      index = req.GET.get('index')
      name = req.GET.get('name')
 
      if index:
+          data = json.loads(req.COOKIES.get('data'))
           index = int(index)
           data = data["validation_table"][index]
           
@@ -315,12 +315,12 @@ def downloadCon(req):
      return response
 
 def download(req):
-     data = json.loads(req.COOKIES.get('data'))
      index = req.GET.get('index')
      name = req.GET.get('name')
      paths = []
 
      if index != None:
+          data = json.loads(req.COOKIES.get('data'))
           index = int(index)
 
           data = data["validation_table"][index]
