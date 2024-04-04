@@ -78,6 +78,15 @@ pre {
     max-width: 100%;
 }
 
+.underline {
+    text-decoration: underline !important;
+    font-weight: 600;
+}
+
+input[type=number]::-webkit-inner-spin-button {  
+   opacity: 1;
+}
+
 /* base */
 body {
     padding: 1rem;
@@ -351,7 +360,7 @@ body {
     text-align: center;
 }
 
-/* results/* */
+/* results even more*/
 #info {
     display: flex;
     flex-direction: row;
@@ -370,7 +379,7 @@ body {
     background-color: #dee0e3;
     padding: 1rem;
     border: 1px solid black;
-    width: fit-content;
+    min-width: 60%;
 }
 
 .resultss_box a {
@@ -383,5 +392,19 @@ body {
 }
 
 .resultss_img {
-    max-width: 50rem;
+    width: 100%;
+}
+
+.config {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+}
+
+.config > :not(:last-child) {
+    margin-right: 3rem;
+}
+
+.config > div {
+    margin-bottom: 2.5rem;
 }

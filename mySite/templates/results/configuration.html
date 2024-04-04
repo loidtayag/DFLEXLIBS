@@ -2,14 +2,45 @@
 <h5>Application: {{name}}</h5>
 <div class="resultss_box_wrapper">
     <h6>Configure Application</h6>
-    <div class="resultss_box">
-        <pre id="report">
-            {{configuration | pprint}} 
-        </pre>
+    <form class="resultss_box" id="config_form" action="/downloadCon" method="get">
+        <div id="report" class="config">
+            <input name="control" value="{{name}}" style="display: none;"/>
+            {% for item in configuration %}
+            <div>
+                <label for="{{item.1}}_input" class="form-label underline">{{item.1}}</label>
+                {% if item.0 == 'text'%}
+                    <input name="{{item.1}}" id="{{item.1}}_input" type="text" class="form-control">
+                    </input>
+                {% elif item.0 == 'slider'%}
+                    <input name="{{item.1}}" class="form-control" value="{{item.2.min}}" id='{{item.1}}_input' type="range" min="{{ item.2.min }}" oninput='showSliderValue("{{item.1}}")'>
+                    </input>
+                    <label id="{{item.1}}">{{item.2.min}}</label>
+                {% elif item.0 == 'multiple_choice'%}
+                    <br/>
+                    {% for choice in item.2 %}
+                        <input value="{{choice}}" name="{{item.1}}" class="form-check-input" type="radio" name="{{item.1}}" id="{{item.1}}_input">
+                        </input>
+                        <label class="form-check-label">{{choice}}</label>
+                        {% if not forloop.last %}
+                            <br/>
+                        {% endif %}
+                    {% endfor %}
+                {% elif item.0 == 'boolean'%}
+                    <br/>
+                    <input name="{{item.1}}" id="{{item.1}}_input" class="form-check-input" type="checkbox" id='{{item.1}}_input' onchange='showCheckboxValue("{{item.1}}")'>
+                    </input>
+                    <label id="{{item.1}}">No</label>
+                {% elif item.0 == 'Number'%}
+                    <input name="{{item.1}}" id="{{item.1}}_input" class="form-control" type="number">
+                    </input>
+                {% endif %}
+            </div>
+            {% endfor %}
+        </div>
 
-        <button onclick="downloadCon()">
+        <button type="submit" class="btn btn-secondary">
             Download configuration file
         </button>
-    </div>
+    </form>
 </div>
 {% endblock %}

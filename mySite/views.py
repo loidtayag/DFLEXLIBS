@@ -15,8 +15,8 @@ import secrets
 import string
 from django.core.cache import cache
 import time
+import yaml
 
-# After this, check what happens if TTL file is invalid, does it crash?
 @shared_task
 def myTask(uploaded):
      return results(uploaded)
@@ -98,7 +98,6 @@ def checkValidate(req):
                return JsonResponse({"validation_table": "In queue...", "place": tokens.index(token)})
      except Exception as _:
           return JsonResponse({"validation_table": "Error..."})
-
 
 def validate(req):
      data = "Upload graph first" 
@@ -275,44 +274,37 @@ def configuration(req):
           data = json.loads(req.COOKIES.get('data'))
           index = int(index)
           data = data["validation_table"][index]
-          
+          name = data[0]
           configuration = API.getInformation(data[0])['configuration']
 
-          return render(req, "results/configuration.html", {'name': data[0], 'configuration': configuration})
+          return render(req, "results/configuration.html", {'name': data[0], 'configuration': configuration, 'name': name})
      elif name:
           configuration = API.getInformation(name)['configuration']
 
-          return render(req, "results/configuration.html", {'name': name, 'configuration': configuration})
+          return render(req, "results/configuration.html", {'name': name, 'configuration': configuration, 'name': name})
 
 def downloadCon(req):
-     data = json.loads(req.COOKIES.get('data'))
-     index = req.GET.get('index')
-     name = req.GET.get('name')
-     configs = req.GET.get('configs')
+    name = ''
+    configs = {}
 
-     if index:
-          index = int(index)
-          data = data["validation_table"][index]
-     
-          paths = API.getConfigurationFiles(data[0], configs)
-     elif name:     
-          configs = json.loads(configs)
-          paths = API.getConfigurationFiles(name, configs)
+    for key, value in req.GET.items():
+        if key == 'control':
+            name = value
+        else:
+            configs[key] = value
 
-     with zipfile.ZipFile('main/static/controls.zip', 'w') as zip:
-          for path in paths:
-               path = os.path.join(os.path.dirname(API_PATH.__file__), path)
-               
-               with open(path, 'r') as file:
-                    zip.writestr(os.path.basename(path), file.read())
+    configuration_data = API.getConfigurationFiles(name, configs)
+    yaml_data = yaml.dump(configuration_data, default_flow_style=False)
 
-     response = None
+    myZip = io.BytesIO()
+    with zipfile.ZipFile(myZip, 'w') as zip:
+        zip.writestr('configuration.yaml', yaml_data.encode('utf-8'))
 
-     with open('main/static/controls.zip', 'rb') as zip_response:
-          response = HttpResponse(zip_response.read(), content_type='application/zip')
-          response['Content-Disposition'] = f'attachment; filename=controls.zip'
+    myZip.seek(0)
+    response = HttpResponse(myZip.read(), content_type='application/zip')
+    response['Content-Disposition'] = 'attachment; filename=configuration.zip'
 
-     return response
+    return response
 
 def download(req):
      index = req.GET.get('index')
@@ -333,7 +325,6 @@ def download(req):
      def getImages(srcDir):
           for path in os.listdir(srcDir):
                path = os.path.join(srcDir, path)
-               print(path)
 
                if os.path.isdir(path):
                     getImages(path)
@@ -345,7 +336,6 @@ def download(req):
      with zipfile.ZipFile(myZip, 'w') as zip:
           for path in paths:
                path = os.path.join(os.path.dirname(os.path.dirname(API_PATH.__file__)), path)
-               print(path)
                if os.path.isdir(path):
                     getImages(path)
                else:

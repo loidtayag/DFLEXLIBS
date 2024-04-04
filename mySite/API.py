@@ -1,5 +1,5 @@
-image = 'controls/demo/myImage.png'
-download = ['controls/demo/myControl.py']
+image = 'demo/myImage.png'
+download = []
 
 download_zone_temp_shed_price = ['controls/hvac/sequences/python/strategies/stra_zone_temp_shed_price.py', 
                                 'controls/hvac/sequences/python/functions/fu_ashrae_TSet_adjust.py',
@@ -161,15 +161,11 @@ apps = {
             [
                 "Number",
                 "adj_comfort_range_value"
-            ],   
-            [
-                "Number",
-                "shift_horizon_time"
             ],    
         ],
         "configuration_file": {
             "sparql_query": None,
-            "graph_path:": None,
+            "graph_path": None,
             "price_identifier": None,
             "Tlimit_min": None,
             "Tlimit_max": None,
@@ -179,7 +175,6 @@ apps = {
             "cool_signal_identifier": None,
             "adj_comfort_range_flag": None,
             "adj_comfort_range_value": None,
-            "shift_horizon_time": None,
         }
     }, 
     "zone_temp_shift_shed_price": {
@@ -206,8 +201,7 @@ apps = {
                 "(i.e., if the price is above a threshold estimated as the third quartile of the input price distribution). "
                 "When the shed event is detected, the shed function computes new setpoints according to the current HVAC operation mode "
                 "and the zone setpoints. If no shed event is detected or the zones are not eligible for DR controls, "
-                "the application releases the control, which means it incrementally returns the setpoints to their baseline values.",
-        
+                "the application releases the control, which means it incrementally returns the setpoints to their baseline values.",      
         "flow_chart": control_flow_zone_temp_shift_shed_price,
         "performance": performance_zone_temp_shift_shed_price,
         "requirements": "@prefix brick: <https://brickschema.org/schema/Brick#> .\n"
@@ -325,11 +319,15 @@ apps = {
             [
                 "Number",
                 "adj_comfort_range_value"
-            ],      
+            ],    
+            [
+                "Number",
+                "shift_horizon_time"
+            ],     
         ],
         "configuration_file": {
             "sparql_query": None,
-            "graph_path:": None,
+            "graph_path": None,
             "price_identifier": None,
             "Tlimit_min": None,
             "Tlimit_max": None,
@@ -339,6 +337,7 @@ apps = {
             "cool_signal_identifier": None,
             "adj_comfort_range_flag": None,
             "adj_comfort_range_value": None,
+            "shift_horizon_time": None,
         }
     },
     "shed os_zone_temp_adjs_rat": {
@@ -348,76 +347,8 @@ apps = {
         "requirements": "My requirements",
         "download": download,
         "configuration": [
-            [
-                "choice",
-                "graph_path",
-                [
-                    "apples",
-                    "oranges"
-                ]
-            ],
-            [
-                "text",
-                "sparql_query"
-            ],
-            [
-                "slider",
-                "myNumber",
-                {
-                    "min": 0,
-                    "max": 100,
-                }
-            ],   
-            [
-                "number",
-                "myNumber",
-                {
-                    "min": 1,
-                    "max": 10,
-                }
-            ],   
-            [
-                "text",
-                "myOtherNumberShouldBe4",
-                {
-                    "dependsOn": "myNumber",
-                    "dependsOnValue": 4
-                }
-            ],      
-            [
-                "number",
-                "myOtherNumberShouldBeAnything",
-                {
-                    "dependsOn": "myNumber",
-                    # If 'dependsOnValue' doesn't exist but 'dependsOn' does, that would mean
-                    # as long as 'myOtherNumber' has a value, show this as well
-                }
-            ],           
-            [
-                "text",
-                "myNestedText"
-            ],
-            [
-                "multiple_choice",
-                "colors",
-                [
-                    "red",
-                    "blue",
-                    "orange"
-                ]
-            ]
         ],
         "configuration_file": {
-            "sparql_query": "default value",
-            "myNumber:": None,
-            "graph_path": None,
-            "myOtherNumber": 4,
-            "myOtherNumberShouldBe4": None,
-            "myOtherNumberShouldBeAnything": None,
-            "nested": {
-                "myNestedText": None,
-                "colors": []
-            }
         }
     }, 
     "shed os_zone_temp_adjs_dem_rat": {
@@ -427,23 +358,9 @@ apps = {
         "requirements": "My requirements",
         "download": download,
         "configuration": [
-            [
-                "text",
-                "my_title_1"
-            ],
-            [
-                "number",
-                "my_title_2"
-            ],
-            [
-                "choice",
-                "my_title_3",
-                [
-                    "my_choice_1",
-                    "my_choice_2"
-                ]
-            ]            
-        ]
+        ],
+        "configuration_file": {
+        }
     },
     "shift os_zone_precool_sim": {
         "description": "My description",
@@ -452,23 +369,9 @@ apps = {
         "requirements": "My requirements",
         "download": download,
         "configuration": [
-            [
-                "text",
-                "my_title_1"
-            ],
-            [
-                "number",
-                "my_title_2"
-            ],
-            [
-                "choice",
-                "my_title_3",
-                [
-                    "my_choice_1",
-                    "my_choice_2"
-                ]
-            ]            
-        ]
+        ],
+        "configuration_file": {
+        }
     },
     "shift os_zone_precool_com": {
         "description": "My description",
@@ -477,23 +380,9 @@ apps = {
         "requirements": "My requirements",
         "download": download,
         "configuration": [
-            [
-                "text",
-                "my_title_1"
-            ],
-            [
-                "number",
-                "my_title_2"
-            ],
-            [
-                "choice",
-                "my_title_3",
-                [
-                    "my_choice_1",
-                    "my_choice_2"
-                ]
-            ]            
-        ]
+        ],
+        "configuration_file": {
+        }
     },
     "shed os_plant_chiller_water_temp_reset": {
         "description": "My description",
@@ -502,23 +391,9 @@ apps = {
         "requirements": "My requirements",
         "download": download,
         "configuration": [
-            [
-                "text",
-                "my_title_1"
-            ],
-            [
-                "number",
-                "my_title_2"
-            ],
-            [
-                "choice",
-                "my_title_3",
-                [
-                    "my_choice_1",
-                    "my_choice_2"
-                ]
-            ]            
-        ]
+        ],
+        "configuration_file": {
+        }
     },
     "shift/shed os_zone_precool_sim_temp_adjs_rat": {
         "description": "My description",
@@ -527,23 +402,9 @@ apps = {
         "requirements": "My requirements",
         "download": download,
         "configuration": [
-            [
-                "text",
-                "my_title_1"
-            ],
-            [
-                "number",
-                "my_title_2"
-            ],
-            [
-                "choice",
-                "my_title_3",
-                [
-                    "my_choice_1",
-                    "my_choice_2"
-                ]
-            ]            
-        ]
+        ],
+        "configuration_file": {
+        }
     }
 }
 
@@ -582,23 +443,28 @@ import copy
 
 # For "results/configuration"
 def getConfigurationFiles(control_name, configs):
-    appsDup = copy.deepcopy(apps)
+    appsDup = copy.deepcopy(apps)[control_name]
+    expected = appsDup["configuration"]
+    for key, value in configs.items():
+        try:
+            index = -1
+            for i, item in enumerate(expected):
+                if item[1] == key:
+                    index = i
 
-    try:
-        appsDup[control_name]["configuration_file"]['sparql_query'] = configs[0]
-        appsDup[control_name]["configuration_file"]['graph_path'] = configs[1]
-        appsDup[control_name]["configuration_file"]['price_identifier'] = configs[2]
-        appsDup[control_name]["configuration_file"]['Tlimit_min'] = configs[3]
-        appsDup[control_name]["configuration_file"]['Tlimit_max'] = configs[4]
-        appsDup[control_name]["configuration_file"]['hvac_mode_type'] = configs[5]
-        appsDup[control_name]["configuration_file"]["hvac_mode_identifier"] = configs[6]
-        appsDup[control_name]["configuration_file"]["heat_signal_identifier"] = configs[7]
-        appsDup[control_name]["configuration_file"]["cool_signal_identifier"] = configs[8]
-        appsDup[control_name]["configuration_file"]["adj_comfort_range_flag"] = configs[9]
-        appsDup[control_name]["configuration_file"]["adj_comfort_range_value"] = configs[10]
-        appsDup[control_name]["configuration_file"]["shift_horizon_time"] = configs[11]
-    except Exception as e:
-        # Just in case for example "zone_temp_shift_shed_price" doesn't have "shift_horizon_time"
-        ignore = ""
+            type = expected[index][0]
+            if (type == 'text' or  type == 'radio' or type == 'Number') and value == '':
+                value = None
+            elif type == 'boolean' and value == 'on':
+                value = True
 
-    return appsDup[control_name]["configuration_file"]
+            appsDup['configuration_file'][key] = value
+        except Exception as e:
+            # Ignored
+            2 + 2
+
+    for i, item in enumerate(expected):
+        if item[0] == 'boolean' and item[1] not in configs.keys():
+            appsDup['configuration_file'][item[1]] = False
+
+    return appsDup["configuration_file"]

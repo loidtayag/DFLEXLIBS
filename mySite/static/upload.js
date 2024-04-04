@@ -440,37 +440,22 @@ function goToConn(index) {
     window.location = '/results/info/configuration?index=' + index
 }
 
-function downloadCon() {
-    const urlParams = new URLSearchParams(window.location.search);
-    const index = urlParams.get('index')
-    const name = urlParams.get('name')
+function showSliderValue(id) {
+    input = document.getElementById(id + '_input')
+    text = document.getElementById(id)
+    text.textContent = input.value
+}
 
-    // Add logic to get form values and pass to request
-    configs = '[]'
+function showCheckboxValue(id) {
+    input = document.getElementById(id + '_input')
+    text = document.getElementById(id)
+    console.log(input.checked);
 
-    if (index) {
-        fetch("/results/info/downloadCon?index=" + index + "&configs=" + configs).then(res => res.blob()).then(blob => {
-            console.log(blob)
-            const blobUrl = URL.createObjectURL(blob);
-            const link = document.createElement('a');
-            link.href = blobUrl;
-            link.download = 'controls.zip'
-            document.body.appendChild(link);
-            link.click();
-            document.body.removeChild(link);
-        })
+    if (input.checked) {
+        text.textContent = 'Yes'
     }
-    else if (name) {
-        fetch("/results/info/downloadCon?name=" + name + "&configs=" + configs).then(res => res.blob()).then(blob => {
-            console.log(blob)
-            const blobUrl = URL.createObjectURL(blob);
-            const link = document.createElement('a');
-            link.href = blobUrl;
-            link.download = 'controls.zip'
-            document.body.appendChild(link);
-            link.click();
-            document.body.removeChild(link);
-        })
+    else {
+        text.textContent = 'No'
     }
 }
 
