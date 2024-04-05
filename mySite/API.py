@@ -11,7 +11,7 @@ download_zone_temp_shed_price = ['controls/hvac/sequences/python/strategies/stra
                                 'controls/hvac/sequences/python/functions/fu_shed_TsetHeaZon.py',
 ]
 control_flow_zone_temp_shed_price = 'controls/hvac/sequences/python/strategies/control_flow_zone_temp_shed_price.png'
-performance_zone_temp_shed_price = 'controls/demo/performance_zone_temp_shed_price.png'
+performance_zone_temp_shed_price = 'demo/myImage.png'
 
 download_zone_temp_shift_shed_price = ['controls/hvac/sequences/python/strategies/stra_zone_temp_shift_shed_price.py', 
                                 'controls/hvac/sequences/python/functions/fu_ashrae_TSet_adjust.py',
@@ -26,7 +26,7 @@ download_zone_temp_shift_shed_price = ['controls/hvac/sequences/python/strategie
                                 'controls/hvac/sequences/python/functions/fu_shed_TsetHeaZon.py',
 ]
 control_flow_zone_temp_shift_shed_price = 'controls/hvac/sequences/python/strategies/control_flow_zone_temp_shift_shed_price.png'
-performance_zone_temp_shift_shed_price = 'controls/demo/performance_zone_temp_shed_price.png'
+performance_zone_temp_shift_shed_price = 'demo/myImage.png'
 
 apps = {
     "zone_temp_shed_price": {
