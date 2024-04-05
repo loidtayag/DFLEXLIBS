@@ -66,8 +66,14 @@ document.addEventListener("DOMContentLoaded", () => {
             }).then(res => {
                 return res.text()
             }).then(text => {
-                document.getElementById('upload_prequeue').classList.add('invisible')
-                document.getElementById('upload_results').classList.remove('invisible')
+
+                if (text != 'Error') {
+                    document.getElementById('upload_prequeue').classList.add('invisible')
+                    document.getElementById('upload_results').classList.remove('invisible')
+                }
+                else {
+                    document.getElementById('upload_prequeue').innerHTML = '<p>Error, this is broken for now... this just goes to "/results" page i.e. the same layout as when you "Search the library\'s controls."</p>'
+                }
 
                 // This is for celery but doesn't work on deployment
                 // arr = text.split('&')

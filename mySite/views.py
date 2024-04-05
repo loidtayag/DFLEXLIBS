@@ -116,9 +116,13 @@ def validate(req):
                graph.parse(data=uploaded)
                uploaded = graph.serialize()
                
+               try:
+                    data = results(uploaded)
+                    res.set_cookie('data', data)
+               except Exception as e:
+                    data = 'Error'
+
                res = HttpResponse(data, content_type='text')
-               data = results(uploaded)
-               res.set_cookie('data', data)
                # This is for celery but doesn't work on deployment
                # id = myTask.delay(uploaded).id
                # data = str(id)
