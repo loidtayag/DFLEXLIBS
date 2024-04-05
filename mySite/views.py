@@ -109,31 +109,37 @@ def validate(req):
           
      if req.method == "POST":
           form = Upload(req.POST, req.FILES)
+          res = None
           if form.is_valid():
                uploaded = form.cleaned_data['file'].read().decode()
                graph = Graph()
                graph.parse(data=uploaded)
                uploaded = graph.serialize()
                
-               id = myTask.delay(uploaded).id
-               data = str(id)
-               token = generateToken()
-               data += '&' + token
+               res = HttpResponse(data, content_type='text')
+               data = results(uploaded)
+               res.set_cookie('data', data)
+               # This is for celery but doesn't work on deployment
+               # id = myTask.delay(uploaded).id
+               # data = str(id)
+               # token = generateToken()
+               # data += '&' + token
                
-               tokens = cache.get('tokens') 
-               if tokens == None:
-                    tokens = []
-               else:
-                    tokens = list(tokens)
+               # tokens = cache.get('tokens') 
+               # if tokens == None:
+               #      tokens = []
+               # else:
+               #      tokens = list(tokens)
 
-               tokens.append(token)
-               cache.set('tokens', tokens)
+               # tokens.append(token)
+               # cache.set('tokens', tokens)
                
-               if tokens[0] == token:
-                    cache.set('lastCheck', time.time())
+               # if tokens[0] == token:
+               #      cache.set('lastCheck', time.time())
           else:
                data = 'File data is invalid'
-          return HttpResponse(data, content_type='text')
+               res = HttpResponse(data, content_type='text')
+          return res
 
      return render(req, "validate.html", {"form": Upload()})
 

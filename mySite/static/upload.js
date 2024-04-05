@@ -56,8 +56,8 @@ document.addEventListener("DOMContentLoaded", () => {
         document.getElementById("upload_form").addEventListener('submit', function (e) {
             e.preventDefault()
             document.getElementById('upload_prequeue').classList.remove('invisible')
-            document.getElementById('upload_results').classList.add('invisible')
             document.getElementById('upload_error').classList.add('invisible')
+            document.getElementById('upload_results').classList.add('invisible')
             var formData = new FormData(this);
 
             fetch(this.action, {
@@ -66,9 +66,13 @@ document.addEventListener("DOMContentLoaded", () => {
             }).then(res => {
                 return res.text()
             }).then(text => {
-                arr = text.split('&')
+                document.getElementById('upload_prequeue').classList.add('invisible')
+                document.getElementById('upload_results').classList.remove('invisible')
 
-                verify(arr[0], arr[1])
+                // This is for celery but doesn't work on deployment
+                // arr = text.split('&')
+
+                // verify(arr[0], arr[1])
             });
         })
     }

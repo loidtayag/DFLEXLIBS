@@ -7,3 +7,4 @@ rdflib
 buildingmotif==0.1.0a0
 tabulate
 celery[redis]
+requests

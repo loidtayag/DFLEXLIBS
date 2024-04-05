@@ -12,7 +12,9 @@
     </div>
   </form>
 
-  <p id="upload_prequeue" class="invisible">Checking place in queue...</p>
+  <!-- This is for celery but doesn't work on deployment -->
+  <!-- <p id="upload_prequeue" class="invisible">Checking place in queue...</p> -->
+  <p id="upload_prequeue" class="invisible">Loading...</p>
   <p id="upload_queue" class="invisible">In queue...</p>
   <p id="upload_loading" class="invisible">Server processing upload...</p>
   <p id="upload_error" class="invisible">Unknown error, please re-upload...</p>
