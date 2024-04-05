@@ -19,7 +19,7 @@ download_zone_temp_shift_shed_price = ['controls/hvac/sequences/python/strategie
                                 'controls/hvac/sequences/python/functions/fu_runaway_TsetCooZon.py',
                                 'controls/hvac/sequences/python/functions/fu_runaway_TsetHeaZon.py',
                                 'controls/hvac/sequences/python/functions/fu_shift_occ_price_event.py',
-                                'controls/hvac/sequences/python/functions/fu_shift_TsetCooZon..py',
+                                'controls/hvac/sequences/python/functions/fu_shift_TsetCooZon.py',
                                 'controls/hvac/sequences/python/functions/fu_shift_TsetHeaZon.py',
                                 'controls/hvac/sequences/python/functions/fu_shed_price_event.py',
                                 'controls/hvac/sequences/python/functions/fu_shed_TsetCooZon.py',
