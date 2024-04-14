@@ -111,18 +111,31 @@ def validate(req):
           form = Upload(req.POST, req.FILES)
           res = None
           if form.is_valid():
+               i = 0
+               checking = True
+               while checking:
+                    cacheBusy = cache.get('busy')
+                    print(str(i) + ": " + str(cacheBusy))
+                    if cacheBusy == None or cacheBusy == 'n':
+                         checking = False
+                         cache.set('busy', 'y')   
+                         time.sleep(10)
+                    i += 1
+
                uploaded = form.cleaned_data['file'].read().decode()
                graph = Graph()
                graph.parse(data=uploaded)
                uploaded = graph.serialize()
-               
+
                try:
                     data = results(uploaded)
                except Exception as e:
+                    print(e)
                     data = 'Error'
 
                res = HttpResponse(data, content_type='text')
                res.set_cookie('data', data)
+               cache.set('busy', 'n')   
 
                # This is for celery but doesn't work on deployment
                # id = myTask.delay(uploaded).id
