@@ -66,7 +66,6 @@ document.addEventListener("DOMContentLoaded", () => {
             }).then(res => {
                 return res.text()
             }).then(text => {
-
                 if (text != 'Error') {
                     document.getElementById('upload_prequeue').classList.add('invisible')
                     document.getElementById('upload_results').classList.remove('invisible')
@@ -77,7 +76,6 @@ document.addEventListener("DOMContentLoaded", () => {
 
                 // This is for celery but doesn't work on deployment
                 // arr = text.split('&')
-
                 // verify(arr[0], arr[1])
             });
         })
@@ -201,6 +199,7 @@ function verify(id, token) {
     fetch('checkValidate?id=' + id + '&token=' + token).then(res => {
         return res.json()
     }).then(data => {
+        console.log(data);
         if (data['validation_table'] == 'Error...') {
             document.getElementById('upload_error').classList.remove('invisible')
             document.getElementById('upload_prequeue').classList.add('invisible')

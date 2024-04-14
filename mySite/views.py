@@ -123,6 +123,7 @@ def validate(req):
 
                res = HttpResponse(data, content_type='text')
                res.set_cookie('data', data)
+
                # This is for celery but doesn't work on deployment
                # id = myTask.delay(uploaded).id
                # data = str(id)
@@ -140,6 +141,7 @@ def validate(req):
                
                # if tokens[0] == token:
                #      cache.set('lastCheck', time.time())
+               # res = HttpResponse(data, content_type='text')
           else:
                data = 'File data is invalid'
                res = HttpResponse(data, content_type='text')
