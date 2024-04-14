@@ -118,11 +118,11 @@ def validate(req):
                
                try:
                     data = results(uploaded)
-                    res.set_cookie('data', data)
                except Exception as e:
                     data = 'Error'
 
                res = HttpResponse(data, content_type='text')
+               res.set_cookie('data', data)
                # This is for celery but doesn't work on deployment
                # id = myTask.delay(uploaded).id
                # data = str(id)

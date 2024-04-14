@@ -5,6 +5,8 @@ typing_extensions
 tzdata
 rdflib
 buildingmotif==0.1.0a0
+# Can't use this version because of 'NoneType' object has no attribute 'reason'
+# buildingmotif==0.2.0b0
 tabulate
 celery[redis]
 requests
