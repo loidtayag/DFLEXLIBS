@@ -71,7 +71,7 @@ document.addEventListener("DOMContentLoaded", () => {
                     document.getElementById('upload_results').classList.remove('invisible')
                 }
                 else {
-                    document.getElementById('upload_prequeue').innerHTML = '<p>Error, this is broken for now... this just goes to "/results" page i.e. the same layout as when you "Search the library\'s controls."</p>'
+                    document.getElementById('upload_prequeue').innerHTML = '<p>Error, this is broken for now... check back again in 24 hours. <br/><br?> This goes to "/results" page i.e. the same layout as when you "Search the library\'s controls."</p>'
                 }
 
                 // This is for celery but doesn't work on deployment
